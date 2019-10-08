@@ -76,6 +76,11 @@ namespace NIP24
 		IWebProxy Proxy { get; set; }
 
 		/// <summary>
+		/// Flaga określająca wykorzystanie starych protokołów SSL/TLS przez biblitoekę
+		/// </summary>
+		[DispId(7)]
+		bool LegacyProtocolsEnabled { get; set; }
+
 		/// Sprawdzenie czy firma prowadzi aktywną działalność
 		/// </summary>
 		/// <param name="type">typ numeru identyfikującego firmę</param>
@@ -264,7 +269,7 @@ namespace NIP24
 	[ComVisible(true)]
 	public class NIP24Client : INIP24Client
 	{
-		public const string VERSION = "1.3.8";
+		public const string VERSION = "1.3.9";
 
 		public const string PRODUCTION_URL = "https://www.nip24.pl/api";
 		public const string TEST_URL = "https://www.nip24.pl/api-test";
@@ -302,6 +307,12 @@ namespace NIP24
 		/// </summary>
 		public IWebProxy Proxy { get; set; }
 
+		/// <summary>
+		/// Flaga określająca wykorzystanie starych protokołów SSL/TLS przez bibliotekę. W przypadku problemów
+		/// z połączeniem do naszego serwisu ze starszych systemów Windows, proszę ustawić LegacyProtocolsEnabled = true
+		/// </summary>
+		public bool LegacyProtocolsEnabled { get; set; }
+
 		private RandomNumberGenerator rng;
 
 		/// <summary>
@@ -318,6 +329,12 @@ namespace NIP24
 
 			Proxy = WebRequest.GetSystemWebProxy();
 			LastError = string.Empty;
+
+#if NIP24_COM
+			LegacyProtocolsEnabled = true;
+#else
+			LegacyProtocolsEnabled = false;
+#endif
 
 			rng = new RNGCryptoServiceProvider();
 		}
@@ -1116,12 +1133,15 @@ namespace NIP24
 
 			try
 			{
-				// SecurityProtocolType:
-				// Tls		192
-				// Tls11	768
-				// Tls12	3072
-				// Tls13	12288
-				ServicePointManager.SecurityProtocol = (SecurityProtocolType)768 | (SecurityProtocolType)3072 | (SecurityProtocolType)12288;
+				if (!LegacyProtocolsEnabled)
+				{
+					// SecurityProtocolType:
+					// Tls		192
+					// Tls11	768
+					// Tls12	3072
+					// Tls13	12288
+					ServicePointManager.SecurityProtocol = (SecurityProtocolType)768 | (SecurityProtocolType)3072 | (SecurityProtocolType)12288;
+				}
 
 				using (WebClient wc = new WebClient())
 				{
