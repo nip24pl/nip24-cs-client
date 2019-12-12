@@ -142,6 +142,18 @@ namespace NIP24
 				{
 					Console.WriteLine("Błąd: " + nip24.LastError);
 				}
+
+				// Wywołanie metody sprawdzającej status podmiotu na białej liście podatników VAT 
+				WLStatus whitelist = nip24.GetWhitelistStatus(Number.NIP, nip, account_number);
+
+				if (whitelist != null)
+				{
+					Console.WriteLine(whitelist);
+				}
+				else
+				{
+					Console.WriteLine("Błąd: " + nip24.LastError);
+				}
 			}
 			catch (Exception e)
 			{

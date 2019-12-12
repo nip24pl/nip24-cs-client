@@ -80,156 +80,174 @@ namespace NIP24
 		decimal ItemPriceIBAN { get; set; }
 
 		/// <summary>
-		/// Maksymalna liczba zapytań w planie
+		/// Koszt netto pojedynczego zapytania - status podmiotu na białej liście podatników VAT
 		/// </summary>
 		[DispId(9)]
+		decimal ItemPriceWhitelist { get; set; }
+
+		/// <summary>
+		/// Maksymalna liczba zapytań w planie
+		/// </summary>
+		[DispId(10)]
 		int Limit { get; set; }
 
 		/// <summary>
 		/// Minimalny odstęp czasu między zapytaniami
 		/// </summary>
-		[DispId(10)]
+		[DispId(11)]
 		int RequestDelay { get; set; }
 
 		/// <summary>
 		/// Maksymalna ilość domen (kluczy API)
 		/// </summary>
-		[DispId(11)]
+		[DispId(12)]
 		int DomainLimit { get; set; }
 
 		/// <summary>
 		/// Możliwość przekroczenia maksymalnej liczby zapytań w planie
 		/// </summary>
-		[DispId(12)]
+		[DispId(13)]
 		bool OverPlanAllowed { get; set; }
 
 		/// <summary>
 		/// Dostęp do kodów TERYT
 		/// </summary>
-		[DispId(13)]
+		[DispId(14)]
 		bool TerytCodes { get; set; }
 
 		/// <summary>
 		/// Dostęp z wykorzystaniem dodatku MS Excel
 		/// </summary>
-		[DispId(14)]
+		[DispId(15)]
 		bool ExcelAddIn { get; set; }
 
 		/// <summary>
 		/// Dostęp z wykorzystaniem aplikacji JPK_VAT
 		/// </summary>
-		[DispId(15)]
+		[DispId(16)]
 		bool JPKVAT { get; set; }
 
 		/// <summary>
 		/// Dostęp do statystyk wykonanych zapytań
 		/// </summary>
-		[DispId(16)]
+		[DispId(17)]
 		bool Stats { get; set; }
 
 		/// <summary>
 		/// Dostęp do monitorowania statusów podmiotów: VAT/VIES/Status działalności
 		/// </summary>
-		[DispId(17)]
+		[DispId(18)]
 		bool NIPMonitor { get; set; }
 
 		/// <summary>
 		/// Wyszukiwanie po numerze NIP
 		/// </summary>
-		[DispId(18)]
+		[DispId(19)]
 		bool SearchByNIP { get; set; }
 
 		/// <summary>
 		/// Wyszukiwanie po numerze REGON
 		/// </summary>
-		[DispId(19)]
+		[DispId(20)]
 		bool SearchByREGON { get; set; }
 
 		/// <summary>
 		/// Wyszukiwanie po numerze KRS
 		/// </summary>
-		[DispId(20)]
+		[DispId(21)]
 		bool SearchByKRS { get; set; }
 
 		/// <summary>
 		/// Dostęp do funkcji sprawdzających status działalności podmiotu
 		/// </summary>
-		[DispId(21)]
+		[DispId(22)]
 		bool FuncIsActive { get; set; }
 
 		/// <summary>
 		/// Dostęp do funkcji pobierających dane podmiotu do faktury
 		/// </summary>
-		[DispId(22)]
+		[DispId(23)]
 		bool FuncGetInvoiceData { get; set; }
 
 		/// <summary>
 		/// Dostęp do funkcji pobierających pełne dane podmiotu
 		/// </summary>
-		[DispId(23)]
+		[DispId(24)]
 		bool FuncGetAllData { get; set; }
 
 		/// <summary>
 		/// Dostęp do funkcji sprawdzających status podmiotu w systemie VIES
 		/// </summary>
-		[DispId(24)]
+		[DispId(25)]
 		bool FuncGetVIESData { get; set; }
 
 		/// <summary>
 		/// Dostęp do funkcji sprawdzających status podmiotu w rejestrze VAT
 		/// </summary>
-		[DispId(25)]
+		[DispId(26)]
 		bool FuncGetVATStatus { get; set; }
 
 		/// <summary>
 		/// Dostęp do funkcji sprawdzających status rachunku bankowego firmy
 		/// </summary>
-		[DispId(26)]
+		[DispId(27)]
 		bool FuncGetIBANStatus { get; set; }
+
+		/// <summary>
+		/// Dostęp do funkcji sprawdzających status podmiotu na białej liście podatników VAT
+		/// </summary>
+		[DispId(28)]
+		bool FuncGetWhitelistStatus { get; set; }
 
 		/// <summary>
 		/// Ilość wykonanych zapytań o dane podmiotu do faktury
 		/// </summary>
-		[DispId(27)]
+		[DispId(29)]
 		int InvoiceDataCount { get; set; }
 
 		/// <summary>
 		/// Ilość wykonanych zapytań o pełne dane podmiotu
 		/// </summary>
-		[DispId(28)]
+		[DispId(30)]
 		int AllDataCount { get; set; }
 
 		/// <summary>
 		/// Ilość wykonanych zapytań o status działalności podmiotu
 		/// </summary>
-		[DispId(29)]
+		[DispId(31)]
 		int FirmStatusCount { get; set; }
 
 		/// <summary>
 		/// Ilość wykonanych zapytań o status podmiotu w rejestrze VAT
 		/// </summary>
-		[DispId(30)]
+		[DispId(32)]
 		int VATStatusCount { get; set; }
 
 		/// <summary>
 		/// Ilość wykonanych zapytań o status podmiotu w systemie VIES
 		/// </summary>
-		[DispId(31)]
+		[DispId(33)]
 		int VIESStatusCount { get; set; }
 
 		/// <summary>
 		/// Ilość wykonanych zapytań o status rachunku bankowego firmy
 		/// </summary>
-		[DispId(32)]
+		[DispId(34)]
 		int IBANStatusCount { get; set; }
+
+		/// <summary>
+		/// Ilość wykonanych zapytań o status podmiotu na białej liście
+		/// </summary>
+		[DispId(35)]
+		int WhitelistStatusCount { get; set; }
 
 		/// <summary>
 		/// Całkowita ilość wykonanych zapytań w bieżącym miesiącu
 		/// </summary>
-		[DispId(33)]
+		[DispId(36)]
 		int TotalCount { get; set; }
 
-		[DispId(34)]
+		[DispId(37)]
 		string ToString();
 	}
 
@@ -284,6 +302,11 @@ namespace NIP24
 		/// Koszt netto pojedynczego zapytania - status rachunku bankowego firmy
 		/// </summary>
 		public decimal ItemPriceIBAN { get; set; }
+
+		/// <summary>
+		/// Koszt netto pojedynczego zapytania - status podmiotu na białej liście podatników VAT
+		/// </summary>
+		public decimal ItemPriceWhitelist { get; set; }
 
 		/// <summary>
 		/// Maksymalna liczba zapytań w planie
@@ -376,6 +399,11 @@ namespace NIP24
 		public bool FuncGetIBANStatus { get; set; }
 
 		/// <summary>
+		/// Dostęp do funkcji sprawdzających status podmiotu na białej liście podatników VAT
+		/// </summary>
+		public bool FuncGetWhitelistStatus { get; set; }
+
+		/// <summary>
 		/// Ilość wykonanych zapytań o dane podmiotu do faktury
 		/// </summary>
 		public int InvoiceDataCount { get; set; }
@@ -406,6 +434,11 @@ namespace NIP24
 		public int IBANStatusCount { get; set; }
 
 		/// <summary>
+		/// Ilość wykonanych zapytań o status podmiotu na białej liście
+		/// </summary>
+		public int WhitelistStatusCount { get; set; }
+
+		/// <summary>
 		/// Całkowita ilość wykonanych zapytań w bieżącym miesiącu
 		/// </summary>
 		public int TotalCount { get; set; }
@@ -428,6 +461,7 @@ namespace NIP24
 				+ ", itemPriceInvoice = " + ItemPriceInvoice
 				+ ", itemPriceAll = " + ItemPriceAll
 				+ ", itemPriceIBAN = " + ItemPriceIBAN
+				+ ", itemPriceWhitelist = " + ItemPriceWhitelist
 
 				+ ", limit = " + Limit
 				+ ", requestDelay = " + RequestDelay
@@ -450,6 +484,7 @@ namespace NIP24
 				+ ", funcGetVIESData = " + FuncGetVIESData
 				+ ", funcGetVATStatus = " + FuncGetVATStatus
 				+ ", funcGetIBANStatus = " + FuncGetIBANStatus
+				+ ", funcGetWhitelistStatus = " + FuncGetWhitelistStatus
 
 				+ ", invoiceDataCount = " + InvoiceDataCount
 				+ ", allDataCount = " + AllDataCount
@@ -457,6 +492,7 @@ namespace NIP24
 				+ ", VATStatusCount = " + VATStatusCount
 				+ ", VIESStatusCount = " + VIESStatusCount
 				+ ", IBANStatusCount = " + IBANStatusCount
+				+ ", WhitelistStatusCount = " + WhitelistStatusCount
 				+ ", totalCount = " + TotalCount
 				+ "]";
         }

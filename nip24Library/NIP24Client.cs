@@ -250,10 +250,40 @@ namespace NIP24
 		IBANStatus GetIBANStatus(string nip, string iban);
 
 		/// <summary>
+		/// Sprawdzenie statusu firmy na podstawie pliku białej listy podatników VAT
+		/// </summary>
+		/// <param name="type">typ numeru identyfikującego firmę</param>
+		/// <param name="number">numer określonego typu</param>
+		/// <param name="iban">numer IBAN rachunku do sprawdzenia (polskie rachunki mogą być bez prefiksu PL)</param>
+		/// <param name="date">dzień, którego ma dotyczyć sprawdzenie statusu w formacie 'yyyy-mm-dd' (null - bieżący dzień)</param>
+		/// <returns>bieżący status rachunku bankowego lub null w przypadku błędu</returns>
+		[DispId(26)]
+		WLStatus GetWhitelistStatus(Number type, string number, string iban, string date);
+
+		/// <summary>
+		/// Sprawdzenie statusu firmy na podstawie pliku białej listy podatników VAT
+		/// </summary>
+		/// <param name="type">typ numeru identyfikującego firmę</param>
+		/// <param name="number">numer określonego typu</param>
+		/// <param name="iban">numer IBAN rachunku do sprawdzenia (polskie rachunki mogą być bez prefiksu PL)</param>
+		/// <returns>bieżący status rachunku bankowego lub null w przypadku błędu</returns>
+		[DispId(27)]
+		WLStatus GetWhitelistStatus(Number type, string number, string iban);
+
+		/// <summary>
+		/// Sprawdzenie statusu firmy na podstawie pliku białej listy podatników VAT
+		/// </summary>
+		/// <param name="nip">numer NIP</param>
+		/// <param name="iban">numer IBAN rachunku do sprawdzenia (polskie rachunki mogą być bez prefiksu PL)</param>
+		/// <returns>bieżący status rachunku bankowego lub null w przypadku błędu</returns>
+		[DispId(28)]
+		WLStatus GetWhitelistStatus(string nip, string iban);
+
+		/// <summary>
 		/// Sprawdzenie bieżącego stanu konta użytkownika
 		/// </summary>
 		/// <returns>status konta lub null w przypadku błędu</returns>
-		[DispId(26)]
+		[DispId(29)]
         AccountStatus GetAccountStatus();
     }
 
@@ -269,7 +299,7 @@ namespace NIP24
 	[ComVisible(true)]
 	public class NIP24Client : INIP24Client
 	{
-		public const string VERSION = "1.4.0";
+		public const string VERSION = "1.4.1";
 
 		public const string PRODUCTION_URL = "https://www.nip24.pl/api";
 		public const string TEST_URL = "https://www.nip24.pl/api-test";
@@ -1039,6 +1069,146 @@ namespace NIP24
 		}
 
 		/// <summary>
+		/// Sprawdzenie statusu firmy na podstawie pliku białej listy podatników VAT
+		/// </summary>
+		/// <param name="type">typ numeru identyfikującego firmę</param>
+		/// <param name="number">numer określonego typu</param>
+		/// <param name="iban">numer IBAN rachunku do sprawdzenia (polskie rachunki mogą być bez prefiksu PL)</param>
+		/// <param name="date">dzień, którego ma dotyczyć sprawdzenie statusu (null - bieżący dzień)</param>
+		/// <returns>bieżący status rachunku bankowego lub null w przypadku błędu</returns>
+		[ComVisible(false)]
+		public WLStatus GetWhitelistStatus(Number type, string number, string iban, DateTime? date)
+		{
+			try
+			{
+				// clear error
+				LastError = string.Empty;
+
+				// validate number and construct path
+				string suffix = null;
+
+				if ((suffix = GetPathSuffix(type, number)) == null)
+				{
+					return null;
+				}
+
+				if (!IBAN.IsValid(iban))
+				{
+					iban = "PL" + iban;
+
+					if (!IBAN.IsValid(iban))
+					{
+						LastError = "Numer IBAN jest nieprawidłowy";
+						return null;
+					}
+				}
+
+				if (!date.HasValue)
+				{
+					date = DateTime.Now;
+				}
+
+				// prepare url
+				Uri url = new Uri(URL + "/check/whitelist/" + suffix + "/" + IBAN.Normalize(iban) + "/" + date.Value.ToString("yyyy-MM-dd"));
+
+				// prepare request
+				XPathDocument doc = Get(url);
+
+				if (doc == null)
+				{
+					LastError = "Nie udało się nawiązać połączenia z serwisem NIP24";
+					return null;
+				}
+
+				// parse response
+				string res = GetString(doc, "/result/error/code", null);
+
+				if (res != null)
+				{
+					LastError = GetString(doc, "/result/error/description", null);
+					return null;
+				}
+
+				WLStatus wls = new WLStatus();
+
+				wls.UID = GetString(doc, "/result/whitelist/uid", null);
+
+				wls.NIP = GetString(doc, "/result/whitelist/nip", null);
+				wls.IBAN = GetString(doc, "/result/whitelist/iban", null);
+
+				wls.Valid = GetString(doc, "/result/whitelist/valid", "false").Equals("true");
+				wls.Virtual = GetString(doc, "/result/whitelist/virtual", "false").Equals("true");
+
+				wls.Status = int.Parse(GetString(doc, "/result/whitelist/vatStatus", "0"));
+				wls.Result = GetString(doc, "/result/whitelist/vatResult", null);
+
+				wls.HashIndex = int.Parse(GetString(doc, "/result/whitelist/hashIndex", "-1"));
+				wls.MaskIndex = int.Parse(GetString(doc, "/result/whitelist/maskIndex", "-1"));
+				wls.Date = GetDateTime(doc, "/result/whitelist/date");
+				wls.Source = GetString(doc, "/result/whitelist/source", null);
+
+				return wls;
+			}
+			catch (Exception e)
+			{
+				LastError = e.Message;
+			}
+
+			return null;
+		}
+
+		/// <summary>
+		/// Sprawdzenie statusu firmy na podstawie pliku białej listy podatników VAT
+		/// </summary>
+		/// <param name="type">typ numeru identyfikującego firmę</param>
+		/// <param name="number">numer określonego typu</param>
+		/// <param name="iban">numer IBAN rachunku do sprawdzenia (polskie rachunki mogą być bez prefiksu PL)</param>
+		/// <param name="date">dzień, którego ma dotyczyć sprawdzenie statusu w formacie 'yyyy-mm-dd' (null - bieżący dzień)</param>
+		/// <returns>bieżący status rachunku bankowego lub null w przypadku błędu</returns>
+		public WLStatus GetWhitelistStatus(Number type, string number, string iban, string date)
+		{
+			DateTime? dt = null;
+
+			if (!string.IsNullOrEmpty(date))
+			{
+				try
+				{
+					dt = DateTime.ParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+				}
+				catch (Exception)
+				{
+					LastError = "Podana data ma nieprawidłowy format";
+					return null;
+				}
+			}
+
+			return GetWhitelistStatus(type, number, iban, dt);
+		}
+
+		/// <summary>
+		/// Sprawdzenie statusu firmy na podstawie pliku białej listy podatników VAT
+		/// </summary>
+		/// <param name="type">typ numeru identyfikującego firmę</param>
+		/// <param name="number">numer określonego typu</param>
+		/// <param name="iban">numer IBAN rachunku do sprawdzenia (polskie rachunki mogą być bez prefiksu PL)</param>
+		/// <returns>bieżący status rachunku bankowego lub null w przypadku błędu</returns>
+		public WLStatus GetWhitelistStatus(Number type, string number, string iban)
+		{
+			return GetWhitelistStatus(type, number, iban, (string)null);
+		}
+
+		/// <summary>
+		/// Sprawdzenie statusu firmy na podstawie pliku białej listy podatników VAT
+		/// </summary>
+		/// <param name="nip">numer NIP</param>
+		/// <param name="iban">numer IBAN rachunku do sprawdzenia (polskie rachunki mogą być bez prefiksu PL)</param>
+		/// <returns>bieżący status rachunku bankowego lub null w przypadku błędu</returns>
+		public WLStatus GetWhitelistStatus(string nip, string iban)
+		{
+			return GetWhitelistStatus(Number.NIP, nip, iban, (string)null);
+		}
+
+		/// <summary>
 		/// Sprawdzenie bieżącego stanu konta użytkownika
 		/// </summary>
 		/// <returns>status konta lub null w przypadku błędu</returns>
@@ -1081,6 +1251,7 @@ namespace NIP24
 				status.ItemPriceInvoice = decimal.Parse(GetString(doc, "/result/account/billingPlan/itemPriceInvoiceData", "0"), CultureInfo.InvariantCulture);
 				status.ItemPriceAll = decimal.Parse(GetString(doc, "/result/account/billingPlan/itemPriceAllData", "0"), CultureInfo.InvariantCulture);
 				status.ItemPriceIBAN = decimal.Parse(GetString(doc, "/result/account/billingPlan/itemPriceIBANStatus", "0"), CultureInfo.InvariantCulture);
+				status.ItemPriceWhitelist = decimal.Parse(GetString(doc, "/result/account/billingPlan/itemPriceWLStatus", "0"), CultureInfo.InvariantCulture);
 
 				status.Limit = int.Parse(GetString(doc, "/result/account/billingPlan/limit", "0"));
 				status.RequestDelay = int.Parse(GetString(doc, "/result/account/billingPlan/requestDelay", "0"));
@@ -1103,6 +1274,7 @@ namespace NIP24
 				status.FuncGetVIESData = GetString(doc, "/result/account/billingPlan/funcGetVIESData", "false").Equals("true");
 				status.FuncGetVATStatus = GetString(doc, "/result/account/billingPlan/funcGetVATStatus", "false").Equals("true");
 				status.FuncGetIBANStatus = GetString(doc, "/result/account/billingPlan/funcGetIBANStatus", "false").Equals("true");
+				status.FuncGetWhitelistStatus = GetString(doc, "/result/account/billingPlan/funcGetWLStatus", "false").Equals("true");
 
 				status.InvoiceDataCount = int.Parse(GetString(doc, "/result/account/requests/invoiceData", "0"));
 				status.AllDataCount = int.Parse(GetString(doc, "/result/account/requests/allData", "0"));
@@ -1110,6 +1282,7 @@ namespace NIP24
 				status.VATStatusCount = int.Parse(GetString(doc, "/result/account/requests/vatStatus", "0"));
 				status.VIESStatusCount = int.Parse(GetString(doc, "/result/account/requests/viesStatus", "0"));
 				status.IBANStatusCount = int.Parse(GetString(doc, "/result/account/requests/ibanStatus", "0"));
+				status.WhitelistStatusCount = int.Parse(GetString(doc, "/result/account/requests/wlStatus", "0"));
 				status.TotalCount = int.Parse(GetString(doc, "/result/account/requests/total", "0"));
 
 				return status;

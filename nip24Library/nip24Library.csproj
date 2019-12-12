@@ -5,9 +5,9 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
 		<PackageId>NIP24.NIP24Client</PackageId>
-		<Version>1.4.0</Version>
-		<AssemblyVersion>1.4.0.0</AssemblyVersion>
-		<FileVersion>1.4.0.0</FileVersion>
+		<Version>1.4.1</Version>
+		<AssemblyVersion>1.4.1.0</AssemblyVersion>
+		<FileVersion>1.4.1.0</FileVersion>
 
 		<Title>NIP24 Service Client</Title>
 		<Summary>NIP24 Service Client for .NET Framework (C#)</Summary>
@@ -17,11 +17,11 @@
 		<Product>NIP24</Product>
 		<Authors>NETCAT</Authors>
 		<Copyright>Copyright © 2015-2019 by NETCAT (www.netcat.pl)</Copyright>
-		<PackageLicenseUrl>http://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
+		<PackageLicenseUrl></PackageLicenseUrl>
 		<PackageProjectUrl>https://www.nip24.pl</PackageProjectUrl>
 
 		<RequireLicenseAcceptance>false</RequireLicenseAcceptance>
-		<PackageTags>nip24 vat nip regon krs iban ceidg gus eu vies mf validator</PackageTags>
+		<PackageTags>nip24 vat nip regon krs iban whitelist ceidg gus eu vies mf validator</PackageTags>
 		<SignAssembly>true</SignAssembly>
 		<AssemblyOriginatorKeyFile>nip24Library.snk</AssemblyOriginatorKeyFile>
 		<DelaySign>false</DelaySign>
