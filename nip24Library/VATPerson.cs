@@ -25,31 +25,37 @@ namespace NIP24
 	#region interface
 
 	/// <summary>
-	/// Interfejs elementu słownika z rejestru PKD (Polska Klasyfikacja Działalności)
+	/// Dane osoby z rejestru VAT
 	/// </summary>
-	[Guid("679DCF2A-222A-4F34-B929-20F3753B60B4")]
+	[Guid("1795E15A-1724-424D-AC89-F65CCF6AF007")]
 	[ComVisible(true)]
-	public interface IPKD
+	public interface IVATPerson
     {
 		/// <summary>
-		/// Kod PKD
+		/// Nazwa firmy
 		/// </summary>
 		[DispId(1)]
-		string Code { get; set; }
+		string CompanyName { get; set; }
 
 		/// <summary>
-		/// Opis kodu PKD
+		/// Imię
 		/// </summary>
 		[DispId(2)]
-		string Description { get; set; }
+		string FirstName { get; set; }
 
 		/// <summary>
-		/// Znacznik przeważającej działalności
+		/// Nazwisko
 		/// </summary>
 		[DispId(3)]
-		bool Primary { get; set; }
+		string LastName { get; set; }
 
+		/// <summary>
+		/// Numer NIP
+		/// </summary>
 		[DispId(4)]
+		string NIP { get; set; }
+
+		[DispId(5)]
 		string ToString();
     }
 
@@ -58,40 +64,46 @@ namespace NIP24
 	#region implementation
 
 	/// <summary>
-	/// Element słownika z rejestru PKD (Polska Klasyfikacja Działalności)
+	/// Dane osoby z rejestru VAT
 	/// </summary>
-	[Guid("B501C035-1F51-461D-87E4-6189E2AB9045")]
+	[Guid("766A6AD3-986E-403D-A2E8-4628C1B7AF2C")]
 	[ClassInterface(ClassInterfaceType.None)]
 	[ComVisible(true)]
-	public class PKD : IPKD
+	public class VATPerson : IVATPerson
 	{
 		/// <summary>
-		/// Kod PKD
+		/// Nazwa firmy
 		/// </summary>
-		public string Code { get; set; }
+		public string CompanyName { get; set; }
 
 		/// <summary>
-		/// Opis kodu PKD
+		/// Imię
 		/// </summary>
-		public string Description { get; set; }
+		public string FirstName { get; set; }
 
 		/// <summary>
-		/// Znacznik przeważającej działalności
+		/// Nazwisko
 		/// </summary>
-		public bool Primary { get; set; }
+		public string LastName { get; set; }
+
+		/// <summary>
+		/// Numer NIP
+		/// </summary>
+		public string NIP { get; set; }
 
 		/// <summary>
 		/// Tworzy nowy, pusty obiekt
 		/// </summary>
-		public PKD()
+		public VATPerson()
 		{
 		}
 
 		public override string ToString()
 		{
-			return "PKD: [primary = " + Primary
-				+ ", code = " + Code
-				+ ", description = " + Description
+			return "VATPerson: [companyName = " + CompanyName
+				+ ", firstName = " + FirstName
+				+ ", lastName = " + LastName
+				+ ", nip = " + NIP
 				+ "]";
 		}
 	}

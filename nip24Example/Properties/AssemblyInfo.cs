@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("NETCAT")]
 [assembly: AssemblyProduct("NIP24")]
-[assembly: AssemblyCopyright("Copyright © 2016-2019 by NETCAT (www.netcat.pl)")]
+[assembly: AssemblyCopyright("Copyright © 2016-2020 by NETCAT (www.netcat.pl)")]
 [assembly: AssemblyTrademark("All rights reserved")]
 [assembly: AssemblyCulture("")]
 
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.4.0.0")]
-[assembly: AssemblyFileVersion("1.4.0.0")]
+[assembly: AssemblyVersion("1.4.2.0")]
+[assembly: AssemblyFileVersion("1.4.2.0")]

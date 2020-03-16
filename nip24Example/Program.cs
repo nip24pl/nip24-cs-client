@@ -1,5 +1,5 @@
 ﻿/**
- * Copyright 2015-2019 NETCAT (www.netcat.pl)
+ * Copyright 2015-2020 NETCAT (www.netcat.pl)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  * @author NETCAT <firma@netcat.pl>
- * @copyright 2015-2019 NETCAT (www.netcat.pl)
+ * @copyright 2015-2020 NETCAT (www.netcat.pl)
  * @license http://www.apache.org/licenses/LICENSE-2.0
  */
 
@@ -52,7 +52,7 @@ namespace NIP24
 				}
 				else
 				{
-					Console.WriteLine("Błąd: " + nip24.LastError);
+					Console.WriteLine("Błąd: " + nip24.LastError + " (kod: " + nip24.LastErrorCode + ")");
 				}
 
 				// Sprawdzenie statusu fimy
@@ -70,7 +70,7 @@ namespace NIP24
 					}
 					else
 					{
-						Console.WriteLine("Błąd: " + nip24.LastError);
+						Console.WriteLine("Błąd: " + nip24.LastError + " (kod: " + nip24.LastErrorCode + ")");
 					}
 				}
 
@@ -79,17 +79,11 @@ namespace NIP24
 
 				if (vat != null)
 				{
-					Console.WriteLine("NIP: " + vat.NIP);
-					Console.WriteLine("REGON: " + vat.REGON);
-					Console.WriteLine("Nazwa firmy: " + vat.Name);
-					Console.WriteLine("Status: " + vat.Status);
-					Console.WriteLine("Wynik: " + vat.Result);
-					Console.WriteLine("Data sprawdzenia: " + vat.Date);
-					Console.WriteLine("Źródło: " + vat.Source);
+					Console.WriteLine(vat);
 				}
 				else
 				{
-					Console.WriteLine("Błąd: " + nip24.LastError);
+					Console.WriteLine("Błąd: " + nip24.LastError + " (kod: " + nip24.LastErrorCode + ")");
 				}
 
 				// Wywołanie metody zwracającej dane do faktury
@@ -97,14 +91,11 @@ namespace NIP24
 
 				if (invoice != null)
 				{
-                    Console.WriteLine("Nazwa: " + invoice.Name);
-					Console.WriteLine("Adres : " + invoice.PostCode + " " + invoice.PostCity + " " + invoice.Street
-						+ " " + invoice.StreetNumber + "/" + invoice.HouseNumber);
-                    Console.WriteLine("NIP: " + invoice.NIP);
+                    Console.WriteLine(invoice);
                 }
                 else
 				{
-					Console.WriteLine("Błąd: " + nip24.LastError);
+					Console.WriteLine("Błąd: " + nip24.LastError + " (kod: " + nip24.LastErrorCode + ")");
 				}
 
 				// Wywołanie metody zwracającej szczegółowe dane firmy
@@ -116,11 +107,11 @@ namespace NIP24
 				}
 				else
 				{
-					Console.WriteLine("Błąd: " + nip24.LastError);
+					Console.WriteLine("Błąd: " + nip24.LastError + " (kod: " + nip24.LastErrorCode + ")");
 				}
 
-                // Wywołanie metody zwracającej dane z systemu VIES
-                VIESData vies = nip24.GetVIESData(nip_eu);
+				// Wywołanie metody zwracającej dane z systemu VIES
+				VIESData vies = nip24.GetVIESData(nip_eu);
 
                 if (vies != null)
                 {
@@ -128,8 +119,8 @@ namespace NIP24
                 }
                 else
                 {
-                    Console.WriteLine("Błąd: " + nip24.LastError);
-                }
+					Console.WriteLine("Błąd: " + nip24.LastError + " (kod: " + nip24.LastErrorCode + ")");
+				}
 
 				// Wywołanie metody zwracającej informacje o rachunku bankowym
 				IBANStatus iban = nip24.GetIBANStatus(Number.NIP, nip, account_number);
@@ -140,7 +131,7 @@ namespace NIP24
 				}
 				else
 				{
-					Console.WriteLine("Błąd: " + nip24.LastError);
+					Console.WriteLine("Błąd: " + nip24.LastError + " (kod: " + nip24.LastErrorCode + ")");
 				}
 
 				// Wywołanie metody sprawdzającej status podmiotu na białej liście podatników VAT 
@@ -152,7 +143,19 @@ namespace NIP24
 				}
 				else
 				{
-					Console.WriteLine("Błąd: " + nip24.LastError);
+					Console.WriteLine("Błąd: " + nip24.LastError + " (kod: " + nip24.LastErrorCode + ")");
+				}
+
+				// Wywołanie metody wyszukującej dane w rejestrze VAT
+				SearchResult result = nip24.SearchVATRegistry(Number.NIP, nip);
+
+				if (result != null)
+				{
+					Console.WriteLine(result);
+				}
+				else
+				{
+					Console.WriteLine("Błąd: " + nip24.LastError + " (kod: " + nip24.LastErrorCode + ")");
 				}
 			}
 			catch (Exception e)

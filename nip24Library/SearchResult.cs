@@ -19,6 +19,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace NIP24
@@ -26,11 +27,11 @@ namespace NIP24
 	#region interface
 
 	/// <summary>
-	/// Status rachunku bankowego IBAN
+	/// Wynik wyszukiwania danych
 	/// </summary>
-	[Guid("BEFDF1CE-BE0C-48DA-8A96-150DCA015E1E")]
+	[Guid("2CF3B248-A621-4689-BA5F-E2426393D182")]
 	[ComVisible(true)]
-	public interface IIBANStatus
+	public interface ISearchResult
     {
 		/// <summary>
 		/// Unikalny identyfikator odpowiedzi
@@ -39,48 +40,30 @@ namespace NIP24
 		string UID { get; set; }
 
 		/// <summary>
-		/// Numer NIP
+		/// Wyszukane dane
 		/// </summary>
 		[DispId(2)]
-		string NIP { get; set; }
+		object[] Results { get; set; }
 
 		/// <summary>
-		/// Numer REGON
+		/// Identyfikator odpowiedzi z rejestru referencyjnego
 		/// </summary>
 		[DispId(3)]
-		string REGON { get; set; }
-
-		/// <summary>
-		/// Numer rachunku bankowego
-		/// </summary>
-		[DispId(4)]
-		string IBAN { get; set; }
-
-		/// <summary>
-		/// Status rachunku (true - rachunek powiązany z podatnikiem, false - nie powiązany)
-		/// </summary>
-		[DispId(5)]
-		bool Valid { get; set; }
-
-		/// <summary>
-		/// Identyfikator sprawdzenia w systemie MF
-		/// </summary>
-		[DispId(6)]
 		string ID { get; set; }
 
 		/// <summary>
 		/// Data sprawdzenia
 		/// </summary>
-		[DispId(7)]
+		[DispId(4)]
 		DateTime Date { get; set; }
 
 		/// <summary>
-		/// Źródło informacji o statusie
+		/// Źródło informacji
 		/// </summary>
-		[DispId(8)]
+		[DispId(5)]
 		string Source { get; set; }
 
-		[DispId(9)]
+		[DispId(6)]
 		string ToString();
     }
 
@@ -91,10 +74,10 @@ namespace NIP24
 	/// <summary>
 	/// Status firmy w rejestrze VAT
 	/// </summary>
-	[Guid("E84A913A-7612-4719-B446-D1DD97E76B38")]
+	[Guid("678D658D-60BC-46CD-8D50-6341310F771A")]
 	[ClassInterface(ClassInterfaceType.None)]
 	[ComVisible(true)]
-	public class IBANStatus : IIBANStatus
+	public class SearchResult : ISearchResult
 	{
 		/// <summary>
 		/// Unikalny identyfikator odpowiedzi
@@ -102,27 +85,22 @@ namespace NIP24
 		public string UID { get; set; }
 
 		/// <summary>
-		/// Numer NIP
+		/// Wyszukane dane
 		/// </summary>
-		public string NIP { get; set; }
+		[ComVisible(false)]
+		public List<object> Results { get; set; }
 
 		/// <summary>
-		/// Numer REGON
+		/// Wyszukane dane
 		/// </summary>
-		public string REGON { get; set; }
+		object[] ISearchResult.Results
+		{
+			get { return Results.ToArray(); }
+			set { Results = new List<object>(value); }
+		}
 
 		/// <summary>
-		/// Numer rachunku bankowego
-		/// </summary>
-		public string IBAN { get; set; }
-
-		/// <summary>
-		/// Status rachunku (true - rachunek powiązany z podatnikiem, false - nie powiązany)
-		/// </summary>
-		public bool Valid { get; set; }
-
-		/// <summary>
-		/// Identyfikator sprawdzenia w systemie MF
+		/// Identyfikator odpowiedzi z rejestru referencyjnego
 		/// </summary>
 		public string ID { get; set; }
 
@@ -135,7 +113,7 @@ namespace NIP24
 		/// <summary>
 		/// Data sprawdzenia
 		/// </summary>
-		DateTime IIBANStatus.Date
+		DateTime ISearchResult.Date
 		{
 			get { return Date ?? DateTime.MinValue; }
 			set { Date = value; }
@@ -149,17 +127,15 @@ namespace NIP24
 		/// <summary>
 		/// Tworzy nowy, pusty obiekt
 		/// </summary>
-		public IBANStatus()
+		public SearchResult()
 		{
+			Results = new List<object>();
 		}
 
 		public override string ToString()
 		{
-			return "IBANStatus: [uid = " + UID
-				+ ", nip = " + NIP
-				+ ", regon = " + REGON
-				+ ", iban = " + IBAN
-				+ ", valid = " + Valid
+			return "SearchResult: [uid = " + UID
+				+ ", results = [" + string.Join(", ", Results.ConvertAll(e => Convert.ToString(e)).ToArray()) + "]"
 				+ ", id = " + ID
 				+ ", date = " + Date
 				+ ", source = " + Source

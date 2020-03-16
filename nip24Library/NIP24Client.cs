@@ -1,5 +1,5 @@
 ﻿/**
- * Copyright 2015-2019 NETCAT (www.netcat.pl)
+ * Copyright 2015-2020 NETCAT (www.netcat.pl)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,12 @@
  * limitations under the License.
  *
  * @author NETCAT <firma@netcat.pl>
- * @copyright 2015-2019 NETCAT (www.netcat.pl)
+ * @copyright 2015-2020 NETCAT (www.netcat.pl)
  * @license http://www.apache.org/licenses/LICENSE-2.0
  */
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Net;
@@ -40,45 +41,51 @@ namespace NIP24
 	public interface INIP24Client
 	{
 		/// <summary>
-		/// Ostatni komunikat błędu
+		/// Ostatni kod błędu
 		/// </summary>
 		[DispId(1)]
+		int LastErrorCode { get; set; }
+
+		/// <summary>
+		/// Ostatni komunikat błędu
+		/// </summary>
+		[DispId(2)]
 		string LastError { get; set; }
 
 		/// <summary>
 		/// Adres URL serwisu
 		/// </summary>
-		[DispId(2)]
+		[DispId(3)]
 		string URL { get; set; }
 
 		/// <summary>
 		/// Identyfikator klucza klienta serwisu
 		/// </summary>
-		[DispId(3)]
+		[DispId(4)]
 		string Id { get; set; }
 
 		/// <summary>
 		/// Klucz klienta serwisu
 		/// </summary>
-		[DispId(4)]
+		[DispId(5)]
 		string Key { get; set; }
 
 		/// <summary>
 		/// Nazwa i wersja aplikacji korzystającej z klienta API
 		/// </summary>
-		[DispId(5)]
+		[DispId(6)]
 		string Application { get; set; }
 
 		/// <summary>
 		/// Proxy HTTP
 		/// </summary>
-		[DispId(6)]
+		[DispId(7)]
 		IWebProxy Proxy { get; set; }
 
 		/// <summary>
 		/// Flaga określająca wykorzystanie starych protokołów SSL/TLS przez biblitoekę
 		/// </summary>
-		[DispId(7)]
+		[DispId(8)]
 		bool LegacyProtocolsEnabled { get; set; }
 
 		/// Sprawdzenie czy firma prowadzi aktywną działalność
@@ -86,7 +93,7 @@ namespace NIP24
 		/// <param name="type">typ numeru identyfikującego firmę</param>
 		/// <param name="number">numer określonego typu</param>
 		/// <returns>true jeżeli firma prowadzi aktywną działalność, false jeżeli firma zakończyła działalność</returns>
-		[DispId(8)]
+		[DispId(9)]
 		bool IsActive(Number type, string number);
 
 		/// <summary>
@@ -94,7 +101,7 @@ namespace NIP24
 		/// </summary>
 		/// <param name="nip">numer NIP</param>
 		/// <returns>true jeżeli firma prowadzi aktywną działalność, false jeżeli firma zakończyła działalność</returns>
-		[DispId(9)]
+		[DispId(10)]
 		bool IsActive(string nip);
 
 		/// <summary>
@@ -104,7 +111,7 @@ namespace NIP24
 		/// <param name="number">numer określonego typu</param>
 		/// <param name="force">parametr ignorowany, zostawiony dla zachowania kompatybilności wstecznej</param>
 		/// <returns>dane firmy lub null w przypadku błędu</returns>
-		[DispId(10)]
+		[DispId(11)]
 		[Obsolete("Ta metoda będzie usunięta w kolejnej wersji API. Proszę używać GetInvoiceData(Number, string)", true)]
 		InvoiceData GetInvoiceData(Number type, string number, bool force = true);
 
@@ -114,7 +121,7 @@ namespace NIP24
 		/// <param name="type">typ numeru identyfikującego firmę</param>
 		/// <param name="number">numer określonego typu</param>
 		/// <returns>dane firmy lub null w przypadku błędu</returns>
-		[DispId(11)]
+		[DispId(12)]
 		InvoiceData GetInvoiceData(Number type, string number);
 
 		/// <summary>
@@ -123,7 +130,7 @@ namespace NIP24
 		/// <param name="nip">numer NIP</param>
 		/// <param name="force">parametr ignorowany, zostawiony dla zachowania kompatybilności wstecznej</param>
 		/// <returns>dane firmy lub null w przypadku błędu</returns>
-		[DispId(12)]
+		[DispId(13)]
 		[Obsolete("Ta metoda będzie usunięta w kolejnej wersji API. Proszę używać GetInvoiceData(string)", true)]
 		InvoiceData GetInvoiceData(string nip, bool force = true);
 
@@ -132,7 +139,7 @@ namespace NIP24
 		/// </summary>
 		/// <param name="nip">numer NIP</param>
 		/// <returns>dane firmy lub null w przypadku błędu</returns>
-		[DispId(13)]
+		[DispId(14)]
 		InvoiceData GetInvoiceData(string nip);
 
 		/// <summary>
@@ -142,7 +149,7 @@ namespace NIP24
 		/// <param name="number">numer określonego typu</param>
 		/// <param name="force">parametr ignorowany, zostawiony dla zachowania kompatybilności wstecznej</param>
 		/// <returns>dane firmy lub null w przypadku błędu</returns>
-		[DispId(14)]
+		[DispId(15)]
 		[Obsolete("Ta metoda będzie usunięta w kolejnej wersji API. Proszę używać GetAllData(Number, string)", true)]
 		AllData GetAllData(Number type, string number, bool force = true);
 
@@ -152,7 +159,7 @@ namespace NIP24
 		/// <param name="type">typ numeru identyfikującego firmę</param>
 		/// <param name="number">numer określonego typu</param>
 		/// <returns>dane firmy lub null w przypadku błędu</returns>
-		[DispId(15)]
+		[DispId(16)]
 		AllData GetAllData(Number type, string number);
 
 		/// <summary>
@@ -161,7 +168,7 @@ namespace NIP24
 		/// <param name="nip">numer NIP</param>
 		/// <param name="force">parametr ignorowany, zostawiony dla zachowania kompatybilności wstecznej</param>
 		/// <returns>dane firmy lub null w przypadku błędu</returns>
-		[DispId(16)]
+		[DispId(17)]
 		[Obsolete("Ta metoda będzie usunięta w kolejnej wersji API. Proszę używać GetAllData(string)", true)]
 		AllData GetAllData(string nip, bool force = false);
 
@@ -170,7 +177,7 @@ namespace NIP24
 		/// </summary>
 		/// <param name="nip">numer NIP</param>
 		/// <returns>dane firmy lub null w przypadku błędu</returns>
-		[DispId(17)]
+		[DispId(18)]
 		AllData GetAllData(string nip);
 
 		/// <summary>
@@ -178,7 +185,7 @@ namespace NIP24
 		/// </summary>
 		/// <param name="euvat">numer EU VAT ID</param>
 		/// <returns>dane firmy lub null w przypadku błędu</returns>
-		[DispId(18)]
+		[DispId(19)]
 		VIESData GetVIESData(string euvat);
 
 		/// <summary>
@@ -188,7 +195,7 @@ namespace NIP24
 		/// <param name="number">numer określonego typu</param>
 		/// <param name="direct">parametr ignorowany, zostawiony dla zachowania kompatybilności wstecznej</param>
 		/// <returns>status firmy lub null w przypadku błędu</returns>
-		[DispId(19)]
+		[DispId(20)]
 		[Obsolete("Ta metoda będzie usunięta w kolejnej wersji API. Proszę używać GetVATStatus(Number, string)", true)]
 		VATStatus GetVATStatus(Number type, string number, bool direct = true);
 
@@ -198,7 +205,7 @@ namespace NIP24
 		/// <param name="type">typ numeru identyfikującego firmę</param>
 		/// <param name="number">numer określonego typu</param>
 		/// <returns>status firmy lub null w przypadku błędu</returns>
-		[DispId(20)]
+		[DispId(21)]
 		VATStatus GetVATStatus(Number type, string number);
 
 		/// <summary>
@@ -207,7 +214,7 @@ namespace NIP24
 		/// <param name="nip">numer NIP</param>
 		/// <param name="direct">parametr ignorowany, zostawiony dla zachowania kompatybilności wstecznej</param>
 		/// <returns>status firmy lub null w przypadku błędu</returns>
-		[DispId(21)]
+		[DispId(22)]
 		[Obsolete("Ta metoda będzie usunięta w kolejnej wersji API. Proszę używać GetVATStatus(string)", true)]
 		VATStatus GetVATStatus(string nip, bool direct = true);
 
@@ -216,7 +223,7 @@ namespace NIP24
 		/// </summary>
 		/// <param name="nip">numer NIP</param>
 		/// <returns>status firmy lub null w przypadku błędu</returns>
-		[DispId(22)]
+		[DispId(23)]
 		VATStatus GetVATStatus(string nip);
 
 		/// <summary>
@@ -227,7 +234,7 @@ namespace NIP24
 		/// <param name="iban">numer IBAN rachunku do sprawdzenia (polskie rachunki mogą być bez prefiksu PL)</param>
 		/// <param name="date">dzień, którego ma dotyczyć sprawdzenie statusu w formacie 'yyyy-mm-dd' (null - bieżący dzień)</param>
 		/// <returns>bieżący status rachunku bankowego lub null w przypadku błędu</returns>
-		[DispId(23)]
+		[DispId(24)]
 		IBANStatus GetIBANStatus(Number type, string number, string iban, string date);
 
 		/// <summary>
@@ -237,7 +244,7 @@ namespace NIP24
 		/// <param name="number">numer określonego typu</param>
 		/// <param name="iban">numer IBAN rachunku do sprawdzenia (polskie rachunki mogą być bez prefiksu PL)</param>
 		/// <returns>bieżący status rachunku bankowego lub null w przypadku błędu</returns>
-		[DispId(24)]
+		[DispId(25)]
 		IBANStatus GetIBANStatus(Number type, string number, string iban);
 
 		/// <summary>
@@ -246,7 +253,7 @@ namespace NIP24
 		/// <param name="nip">numer NIP</param>
 		/// <param name="iban">numer IBAN rachunku do sprawdzenia (polskie rachunki mogą być bez prefiksu PL)</param>
 		/// <returns>bieżący status rachunku bankowego lub null w przypadku błędu</returns>
-		[DispId(25)]
+		[DispId(26)]
 		IBANStatus GetIBANStatus(string nip, string iban);
 
 		/// <summary>
@@ -257,7 +264,7 @@ namespace NIP24
 		/// <param name="iban">numer IBAN rachunku do sprawdzenia (polskie rachunki mogą być bez prefiksu PL)</param>
 		/// <param name="date">dzień, którego ma dotyczyć sprawdzenie statusu w formacie 'yyyy-mm-dd' (null - bieżący dzień)</param>
 		/// <returns>bieżący status rachunku bankowego lub null w przypadku błędu</returns>
-		[DispId(26)]
+		[DispId(27)]
 		WLStatus GetWhitelistStatus(Number type, string number, string iban, string date);
 
 		/// <summary>
@@ -267,7 +274,7 @@ namespace NIP24
 		/// <param name="number">numer określonego typu</param>
 		/// <param name="iban">numer IBAN rachunku do sprawdzenia (polskie rachunki mogą być bez prefiksu PL)</param>
 		/// <returns>bieżący status rachunku bankowego lub null w przypadku błędu</returns>
-		[DispId(27)]
+		[DispId(28)]
 		WLStatus GetWhitelistStatus(Number type, string number, string iban);
 
 		/// <summary>
@@ -276,14 +283,41 @@ namespace NIP24
 		/// <param name="nip">numer NIP</param>
 		/// <param name="iban">numer IBAN rachunku do sprawdzenia (polskie rachunki mogą być bez prefiksu PL)</param>
 		/// <returns>bieżący status rachunku bankowego lub null w przypadku błędu</returns>
-		[DispId(28)]
+		[DispId(29)]
 		WLStatus GetWhitelistStatus(string nip, string iban);
+
+		/// <summary>
+		/// Wyszukiwanie danych w rejestrze VAT
+		/// </summary>
+		/// <param name="type">typ numeru identyfikującego firmę</param>
+		/// <param name="number">numer określonego typu</param>
+		/// <param name="date">dzień, którego ma dotyczyć sprawdzenie statusu w formacie 'yyyy-mm-dd' (null - bieżący dzień)</param>
+		/// <returns>wyszukane dane lub null w przypadku błędu</returns>
+		[DispId(30)]
+		SearchResult SearchVATRegistry(Number type, string number, string date);
+
+		/// <summary>
+		/// Wyszukiwanie danych w rejestrze VAT
+		/// </summary>
+		/// <param name="type">typ numeru identyfikującego firmę</param>
+		/// <param name="number">numer określonego typu</param>
+		/// <returns>wyszukane dane lub null w przypadku błędu</returns>
+		[DispId(31)]
+		SearchResult SearchVATRegistry(Number type, string number);
+
+		/// <summary>
+		/// Wyszukiwanie danych w rejestrze VAT
+		/// </summary>
+		/// <param name="nip">numer NIP</param>
+		/// <returns>wyszukane dane lub null w przypadku błędu</returns>
+		[DispId(32)]
+		SearchResult SearchVATRegistry(string nip);
 
 		/// <summary>
 		/// Sprawdzenie bieżącego stanu konta użytkownika
 		/// </summary>
 		/// <returns>status konta lub null w przypadku błędu</returns>
-		[DispId(29)]
+		[DispId(33)]
         AccountStatus GetAccountStatus();
     }
 
@@ -299,13 +333,18 @@ namespace NIP24
 	[ComVisible(true)]
 	public class NIP24Client : INIP24Client
 	{
-		public const string VERSION = "1.4.1";
+		public const string VERSION = "1.4.2";
 
 		public const string PRODUCTION_URL = "https://www.nip24.pl/api";
 		public const string TEST_URL = "https://www.nip24.pl/api-test";
 
 		public const string TEST_ID = "test_id";
 		public const string TEST_KEY = "test_key";
+
+		/// <summary>
+		/// Ostatni kod błędu
+		/// </summary>
+		public int LastErrorCode { get; set; }
 
 		/// <summary>
 		/// Ostatni komunikat błędu
@@ -358,7 +397,8 @@ namespace NIP24
 			Key = key;
 
 			Proxy = WebRequest.GetSystemWebProxy();
-			LastError = string.Empty;
+			
+			Clear();
 
 #if NIP24_COM
 			LegacyProtocolsEnabled = true;
@@ -427,7 +467,7 @@ namespace NIP24
 			try
 			{
 				// clear error
-				LastError = string.Empty;
+				Clear();
 
 				// validate number and construct path
 				string suffix = null;
@@ -445,24 +485,24 @@ namespace NIP24
 
 				if (doc == null)
 				{
-					LastError = "Nie udało się nawiązać połączenia z serwisem NIP24";
+					Set(Error.CLI_CONNECT);
 					return false;
 				}
 
 				// parse response
-				string res = GetString(doc, "/result/error/code", null);
+				string code = GetString(doc, "/result/error/code", null);
 
-				if (res != null)
+				if (code != null)
 				{
-					if (res.Equals("9"))
+					if (code.Equals("9"))
 					{
 						// not active
-						LastError = string.Empty;
+						Clear();
 						return false;
 					}
 					else
 					{
-						LastError = GetString(doc, "/result/error/description", null);
+						Set(int.Parse(code), GetString(doc, "/result/error/description", null));
 						return false;
 					}
 				}
@@ -472,7 +512,7 @@ namespace NIP24
 			}
 			catch (Exception e)
 			{
-				LastError = e.Message;
+				Set(Error.CLI_EXCEPTION, e.Message);
 			}
 
 			return false;
@@ -512,7 +552,7 @@ namespace NIP24
 			try
 			{
 				// clear error
-				LastError = string.Empty;
+				Clear();
 
 				// validate number and construct path
 				string suffix = null;
@@ -530,16 +570,16 @@ namespace NIP24
 
 				if (doc == null)
 				{
-					LastError = "Nie udało się nawiązać połączenia z serwisem NIP24";
+					Set(Error.CLI_CONNECT);
 					return null;
 				}
 
 				// parse response
-				string res = GetString(doc, "/result/error/code", null);
+				string code = GetString(doc, "/result/error/code", null);
 
-				if (res != null)
+				if (code != null)
 				{
-					LastError = GetString(doc, "/result/error/description", null);
+					Set(int.Parse(code), GetString(doc, "/result/error/description", null));
 					return null;
 				}
 
@@ -568,7 +608,7 @@ namespace NIP24
 			}
 			catch (Exception e)
 			{
-				LastError = e.Message;
+				Set(Error.CLI_EXCEPTION, e.Message);
 			}
 
 			return null;
@@ -620,7 +660,7 @@ namespace NIP24
 			try
 			{
 				// clear error
-				LastError = string.Empty;
+				Clear();
 
 				// validate number and construct path
 				string suffix = null;
@@ -638,16 +678,16 @@ namespace NIP24
 
 				if (doc == null)
 				{
-					LastError = "Nie udało się nawiązać połączenia z serwisem NIP24";
+					Set(Error.CLI_CONNECT);
 					return null;
 				}
 
 				// parse response
-				string res = GetString(doc, "/result/error/code", null);
+				string code = GetString(doc, "/result/error/code", null);
 
-				if (res != null)
+				if (code != null)
 				{
-					LastError = GetString(doc, "/result/error/description", null);
+					Set(int.Parse(code), GetString(doc, "/result/error/description", null));
 					return null;
 				}
 
@@ -712,9 +752,9 @@ namespace NIP24
 
 				for (int i = 1; ; i++)
 				{
-					string code = GetString(doc, "/result/firm/PKDs/PKD[" + i + "]/code", null);
+					string pkdcode = GetString(doc, "/result/firm/PKDs/PKD[" + i + "]/code", null);
 
-					if (code == null)
+					if (pkdcode == null)
 					{
 						break;
 					}
@@ -724,7 +764,7 @@ namespace NIP24
 
 					PKD pkd = new PKD();
 
-					pkd.Code = code;
+					pkd.Code = pkdcode;
 					pkd.Description = descr;
 					pkd.Primary = pri.Equals("true");
 
@@ -735,7 +775,7 @@ namespace NIP24
 			}
 			catch (Exception e)
 			{
-				LastError = e.Message;
+				Set(Error.CLI_EXCEPTION, e.Message);
 			}
 
 			return null;
@@ -773,7 +813,7 @@ namespace NIP24
 			try
 			{
 				// clear error
-				LastError = string.Empty;
+				Clear();
 
 				// validate number and construct path
 				string suffix = null;
@@ -791,16 +831,16 @@ namespace NIP24
 
 				if (doc == null)
 				{
-					LastError = "Nie udało się nawiązać połączenia z serwisem NIP24";
+					Set(Error.CLI_CONNECT);
 					return null;
 				}
 
 				// parse response
-				string res = GetString(doc, "/result/error/code", null);
+				string code = GetString(doc, "/result/error/code", null);
 
-				if (res != null)
+				if (code != null)
 				{
-					LastError = GetString(doc, "/result/error/description", null);
+					Set(int.Parse(code), GetString(doc, "/result/error/description", null));
 					return null;
 				}
 
@@ -825,7 +865,7 @@ namespace NIP24
 			}
 			catch (Exception e)
 			{
-				LastError = e.Message;
+				Set(Error.CLI_EXCEPTION, e.Message);
 			}
 
 			return null;
@@ -855,7 +895,7 @@ namespace NIP24
 			try
 			{
 				// clear error
-				LastError = string.Empty;
+				Clear();
 
 				// validate number and construct path
 				string suffix = null;
@@ -873,16 +913,16 @@ namespace NIP24
 
 				if (doc == null)
 				{
-					LastError = "Nie udało się nawiązać połączenia z serwisem NIP24";
+					Set(Error.CLI_CONNECT);
 					return null;
 				}
 
 				// parse response
-				string res = GetString(doc, "/result/error/code", null);
+				string code = GetString(doc, "/result/error/code", null);
 
-				if (res != null)
+				if (code != null)
 				{
-					LastError = GetString(doc, "/result/error/description", null);
+					Set(int.Parse(code), GetString(doc, "/result/error/description", null));
 					return null;
 				}
 
@@ -904,7 +944,7 @@ namespace NIP24
 			}
 			catch (Exception e)
 			{
-				LastError = e.Message;
+				Set(Error.CLI_EXCEPTION, e.Message);
 			}
 
 			return null;
@@ -946,7 +986,7 @@ namespace NIP24
 			try
 			{
 				// clear error
-				LastError = string.Empty;
+				Clear();
 
 				// validate number and construct path
 				string suffix = null;
@@ -962,7 +1002,7 @@ namespace NIP24
 
 					if (!IBAN.IsValid(iban))
 					{
-						LastError = "Numer IBAN jest nieprawidłowy";
+						Set(Error.CLI_IBAN);
 						return null;
 					}
 				}
@@ -980,16 +1020,16 @@ namespace NIP24
 
 				if (doc == null)
 				{
-					LastError = "Nie udało się nawiązać połączenia z serwisem NIP24";
+					Set(Error.CLI_CONNECT);
 					return null;
 				}
 
 				// parse response
-				string res = GetString(doc, "/result/error/code", null);
+				string code = GetString(doc, "/result/error/code", null);
 
-				if (res != null)
+				if (code != null)
 				{
-					LastError = GetString(doc, "/result/error/description", null);
+					Set(int.Parse(code), GetString(doc, "/result/error/description", null));
 					return null;
 				}
 
@@ -1011,7 +1051,7 @@ namespace NIP24
 			}
 			catch (Exception e)
 			{
-				LastError = e.Message;
+				Set(Error.CLI_EXCEPTION, e.Message);
 			}
 
 			return null;
@@ -1037,7 +1077,7 @@ namespace NIP24
 				}
 				catch (Exception)
 				{
-					LastError = "Podana data ma nieprawidłowy format";
+					Set(Error.CLI_DATEFORMAT);
 					return null;
 				}
 			}
@@ -1082,7 +1122,7 @@ namespace NIP24
 			try
 			{
 				// clear error
-				LastError = string.Empty;
+				Clear();
 
 				// validate number and construct path
 				string suffix = null;
@@ -1098,7 +1138,7 @@ namespace NIP24
 
 					if (!IBAN.IsValid(iban))
 					{
-						LastError = "Numer IBAN jest nieprawidłowy";
+						Set(Error.CLI_IBAN);
 						return null;
 					}
 				}
@@ -1116,16 +1156,16 @@ namespace NIP24
 
 				if (doc == null)
 				{
-					LastError = "Nie udało się nawiązać połączenia z serwisem NIP24";
+					Set(Error.CLI_CONNECT);
 					return null;
 				}
 
 				// parse response
-				string res = GetString(doc, "/result/error/code", null);
+				string code = GetString(doc, "/result/error/code", null);
 
-				if (res != null)
+				if (code != null)
 				{
-					LastError = GetString(doc, "/result/error/description", null);
+					Set(int.Parse(code), GetString(doc, "/result/error/description", null));
 					return null;
 				}
 
@@ -1151,7 +1191,7 @@ namespace NIP24
 			}
 			catch (Exception e)
 			{
-				LastError = e.Message;
+				Set(Error.CLI_EXCEPTION, e.Message);
 			}
 
 			return null;
@@ -1177,7 +1217,7 @@ namespace NIP24
 				}
 				catch (Exception)
 				{
-					LastError = "Podana data ma nieprawidłowy format";
+					Set(Error.CLI_DATEFORMAT);
 					return null;
 				}
 			}
@@ -1209,6 +1249,168 @@ namespace NIP24
 		}
 
 		/// <summary>
+		/// Wyszukiwanie danych w rejestrze VAT
+		/// </summary>
+		/// <param name="type">typ numeru identyfikującego firmę</param>
+		/// <param name="number">numer określonego typu</param>
+		/// <param name="date">dzień, którego ma dotyczyć sprawdzenie statusu (null - bieżący dzień)</param>
+		/// <returns>wyszukane dane lub null w przypadku błędu</returns>
+		[ComVisible(false)]
+		public SearchResult SearchVATRegistry(Number type, string number, DateTime? date)
+		{
+			try
+			{
+				// clear error
+				Clear();
+
+				// validate number and construct path
+				string suffix = null;
+
+				if ((suffix = GetPathSuffix(type, number)) == null)
+				{
+					return null;
+				}
+
+				if (!date.HasValue)
+				{
+					date = DateTime.Now;
+				}
+
+				// prepare url
+				Uri url = new Uri(URL + "/search/vat/" + suffix + "/" + date.Value.ToString("yyyy-MM-dd"));
+
+				// prepare request
+				XPathDocument doc = Get(url);
+
+				if (doc == null)
+				{
+					Set(Error.CLI_CONNECT);
+					return null;
+				}
+
+				// parse response
+				string code = GetString(doc, "/result/error/code", null);
+
+				if (code != null)
+				{
+					Set(int.Parse(code), GetString(doc, "/result/error/description", null));
+					return null;
+				}
+
+				SearchResult sr = new SearchResult();
+
+				sr.UID = GetString(doc, "/result/search/uid", null);
+
+				for (int i = 1; ; i++)
+				{
+					string nip = GetString(doc, "/result/search/entities/entity[" + i + "]/nip", null);
+
+					if (nip == null)
+					{
+						break;
+					}
+
+					VATEntity ve = new VATEntity();
+
+					ve.Name = GetString(doc, "/result/search/entities/entity[" + i + "]/name", null);
+					ve.NIP = NIP.Normalize(nip);
+					ve.REGON = REGON.Normalize(GetString(doc, "/result/search/entities/entity[" + i + "]/regon", null));
+					ve.KRS = KRS.Normalize(GetString(doc, "/result/search/entities/entity[" + i + "]/krs", null));
+					ve.ResidenceAddress = GetString(doc, "/result/search/entities/entity[" + i + "]/residenceAddress", null);
+					ve.WorkingAddress = GetString(doc, "/result/search/entities/entity[" + i + "]/workingAddress", null);
+					ve.VATStatus = int.Parse(GetString(doc, "/result/search/entities/entity[" + i + "]/vat/status", "0"));
+					ve.VATResult = GetString(doc, "/result/search/entities/entity[" + i + "]/vat/result", null);
+
+					GetVATPerson(doc, "/result/search/entities/entity[" + i + "]/representatives", ve.Representatives);
+					GetVATPerson(doc, "/result/search/entities/entity[" + i + "]/authorizedClerks", ve.AuthorizedClerks);
+					GetVATPerson(doc, "/result/search/entities/entity[" + i + "]/partners", ve.Partners);
+
+					for (int k = 1; ; k++)
+					{
+						string iban = GetString(doc, "/result/search/entities/entity[" + i + "]/ibans/iban[" + k + "]", null);
+
+						if (iban == null) {
+							break;
+						}
+
+						ve.IBANs.Add(iban);
+					}
+
+					ve.HasVirtualAccounts = GetString(doc, "/result/search/entities/entity[" + i + "]/hasVirtualAccounts", "false").Equals("true");
+					ve.RegistrationLegalDate = GetDateTime(doc, "/result/search/entities/entity[" + i + "]/registrationLegalDate");
+					ve.RegistrationDenialDate = GetDateTime(doc, "/result/search/entities/entity[" + i + "]/registrationDenialDate");
+					ve.RegistrationDenialBasis = GetString(doc, "/result/search/entities/entity[" + i + "]/registrationDenialBasis", null);
+					ve.RestorationDate = GetDateTime(doc, "/result/search/entities/entity[" + i + "]/restorationDate");
+					ve.RestorationBasis = GetString(doc, "/result/search/entities/entity[" + i + "]/restorationBasis", null);
+					ve.RemovalDate = GetDateTime(doc, "/result/search/entities/entity[" + i + "]/removalDate");
+					ve.RemovalBasis = GetString(doc, "/result/search/entities/entity[" + i + "]/removalBasis", null);
+
+					sr.Results.Add(ve);
+				}
+
+				sr.ID = GetString(doc, "/result/search/id", null);
+				sr.Date = GetDateTime(doc, "/result/search/date");
+				sr.Source = GetString(doc, "/result/search/source", null);
+
+				return sr;
+			}
+			catch (Exception e)
+			{
+				Set(Error.CLI_EXCEPTION, e.Message);
+			}
+
+			return null;
+		}
+
+		/// <summary>
+		/// Wyszukiwanie danych w rejestrze VAT
+		/// </summary>
+		/// <param name="type">typ numeru identyfikującego firmę</param>
+		/// <param name="number">numer określonego typu</param>
+		/// <param name="date">dzień, którego ma dotyczyć sprawdzenie statusu w formacie 'yyyy-mm-dd' (null - bieżący dzień)</param>
+		/// <returns>wyszukane dane lub null w przypadku błędu</returns>
+		public SearchResult SearchVATRegistry(Number type, string number, string date)
+		{
+			DateTime? dt = null;
+
+			if (!string.IsNullOrEmpty(date))
+			{
+				try
+				{
+					dt = DateTime.ParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+				}
+				catch (Exception)
+				{
+					Set(Error.CLI_DATEFORMAT);
+					return null;
+				}
+			}
+
+			return SearchVATRegistry(type, number, dt);
+		}
+
+		/// <summary>
+		/// Wyszukiwanie danych w rejestrze VAT
+		/// </summary>
+		/// <param name="type">typ numeru identyfikującego firmę</param>
+		/// <param name="number">numer określonego typu</param>
+		/// <returns>wyszukane dane lub null w przypadku błędu</returns>
+		public SearchResult SearchVATRegistry(Number type, string number)
+		{
+			return SearchVATRegistry(type, number, (string)null);
+		}
+
+		/// <summary>
+		/// Wyszukiwanie danych w rejestrze VAT
+		/// </summary>
+		/// <param name="nip">numer NIP</param>
+		/// <returns>wyszukane dane lub null w przypadku błędu</returns>
+		public SearchResult SearchVATRegistry(string nip)
+		{
+			return SearchVATRegistry(Number.NIP, nip, (string)null);
+		}
+
+		/// <summary>
 		/// Sprawdzenie bieżącego stanu konta użytkownika
 		/// </summary>
 		/// <returns>status konta lub null w przypadku błędu</returns>
@@ -1217,7 +1419,7 @@ namespace NIP24
 			try
 			{
 				// clear error
-				LastError = string.Empty;
+				Clear();
 
 				// prepare url
 				Uri url = new Uri(URL + "/check/account/status");
@@ -1227,22 +1429,24 @@ namespace NIP24
 
 				if (doc == null)
 				{
-					LastError = "Nie udało się nawiązać połączenia z serwisem NIP24";
+					Set(Error.CLI_CONNECT);
 					return null;
 				}
 
 				// parse response
-				string res = GetString(doc, "/result/error/code", null);
+				string code = GetString(doc, "/result/error/code", null);
 
-				if (res != null)
+				if (code != null)
 				{
-					LastError = GetString(doc, "/result/error/description", null);
+					Set(int.Parse(code), GetString(doc, "/result/error/description", null));
 					return null;
 				}
 
 				AccountStatus status = new AccountStatus();
 
 				status.UID = GetString(doc, "/result/account/uid", null);
+				status.Type = GetString(doc, "/result/account/type", null);
+				status.ValidTo = GetDateTime(doc, "/result/account/validTo");
 				status.BillingPlanName = GetString(doc, "/result/account/billingPlan/name", null);
 
 				status.SubscriptionPrice = decimal.Parse(GetString(doc, "/result/account/billingPlan/subscriptionPrice", "0"), CultureInfo.InvariantCulture);
@@ -1252,6 +1456,7 @@ namespace NIP24
 				status.ItemPriceAll = decimal.Parse(GetString(doc, "/result/account/billingPlan/itemPriceAllData", "0"), CultureInfo.InvariantCulture);
 				status.ItemPriceIBAN = decimal.Parse(GetString(doc, "/result/account/billingPlan/itemPriceIBANStatus", "0"), CultureInfo.InvariantCulture);
 				status.ItemPriceWhitelist = decimal.Parse(GetString(doc, "/result/account/billingPlan/itemPriceWLStatus", "0"), CultureInfo.InvariantCulture);
+				status.ItemPriceSearchVAT = decimal.Parse(GetString(doc, "/result/account/billingPlan/itemPriceSearchVAT", "0"), CultureInfo.InvariantCulture);
 
 				status.Limit = int.Parse(GetString(doc, "/result/account/billingPlan/limit", "0"));
 				status.RequestDelay = int.Parse(GetString(doc, "/result/account/billingPlan/requestDelay", "0"));
@@ -1275,6 +1480,7 @@ namespace NIP24
 				status.FuncGetVATStatus = GetString(doc, "/result/account/billingPlan/funcGetVATStatus", "false").Equals("true");
 				status.FuncGetIBANStatus = GetString(doc, "/result/account/billingPlan/funcGetIBANStatus", "false").Equals("true");
 				status.FuncGetWhitelistStatus = GetString(doc, "/result/account/billingPlan/funcGetWLStatus", "false").Equals("true");
+				status.FuncSearchVAT = GetString(doc, "/result/account/billingPlan/funcSearchVAT", "false").Equals("true");
 
 				status.InvoiceDataCount = int.Parse(GetString(doc, "/result/account/requests/invoiceData", "0"));
 				status.AllDataCount = int.Parse(GetString(doc, "/result/account/requests/allData", "0"));
@@ -1283,16 +1489,37 @@ namespace NIP24
 				status.VIESStatusCount = int.Parse(GetString(doc, "/result/account/requests/viesStatus", "0"));
 				status.IBANStatusCount = int.Parse(GetString(doc, "/result/account/requests/ibanStatus", "0"));
 				status.WhitelistStatusCount = int.Parse(GetString(doc, "/result/account/requests/wlStatus", "0"));
+				status.SearchVATCount = int.Parse(GetString(doc, "/result/account/requests/searchVAT", "0"));
 				status.TotalCount = int.Parse(GetString(doc, "/result/account/requests/total", "0"));
 
 				return status;
 			}
 			catch (Exception e)
 			{
-				LastError = e.Message;
+				Set(Error.CLI_EXCEPTION, e.Message);
 			}
 
 			return null;
+		}
+
+		/// <summary>
+		/// Wyzerowanie informacji o błędzie
+		/// </summary>
+		private void Clear()
+		{
+			LastErrorCode = 0;
+			LastError = string.Empty;
+		}
+
+		/// <summary>
+		/// Ustawienie kodu błędu
+		/// </summary>
+		/// <param name="code">kod błędu</param>
+		/// <param name="err">komunikat</param>
+		private void Set(int code, string err = null)
+		{
+			LastErrorCode = code;
+			LastError = (string.IsNullOrEmpty(err) ? Error.Message(code) : err);
 		}
 
 		/// <summary>
@@ -1353,7 +1580,7 @@ namespace NIP24
 			}
 			catch (Exception e)
 			{
-				LastError = e.Message;
+				Set(Error.CLI_EXCEPTION, e.Message);
 			}
 
 			return doc;
@@ -1471,6 +1698,39 @@ namespace NIP24
 		}
 
 		/// <summary>
+		/// Dodaj wartość węzła XML jako obiekt VATPerson do podanej listy
+		/// </summary>
+		/// <param name="doc">dokument XML</param>
+		/// <param name="path">wyrażenie XPath wybierające wartość</param>
+		/// <param name="list">lista osób</param>
+		private void GetVATPerson(XPathDocument doc, string path, List<VATPerson> list)
+		{
+			try
+			{
+				for (int i = 1; ; i++)
+				{
+					string nip = GetString(doc, path +  "/person[" + i + "]/nip", null);
+
+					if (nip == null) {
+						break;
+					}
+
+					VATPerson vp = new VATPerson();
+
+					vp.NIP = NIP.Normalize(nip);
+					vp.CompanyName = GetString(doc, path + "/person[" + i + "]/companyName", null);
+					vp.FirstName = GetString(doc, path + "/person[" + i + "]/firstName", null);
+					vp.LastName = GetString(doc, path + "/person[" + i + "]/lastName", null);
+
+					list.Add(vp);
+				}
+			}
+			catch (Exception)
+			{
+			}
+		}
+
+		/// <summary>
 		/// Pobranie sufiksu ścieżki
 		/// </summary>
 		/// <param name="type">typ numeru identyfikującego firmę</param>
@@ -1484,7 +1744,7 @@ namespace NIP24
             {
                 if (!NIP.IsValid(number))
                 {
-                    LastError = "Numer NIP jest nieprawidłowy";
+					Set(Error.CLI_NIP);
                     return null;
                 }
 
@@ -1494,8 +1754,8 @@ namespace NIP24
             {
                 if (!REGON.IsValid(number))
                 {
-                    LastError = "Numer REGON jest nieprawidłowy";
-                    return null;
+					Set(Error.CLI_REGON);
+					return null;
                 }
 
                 path = "regon/" + REGON.Normalize(number);
@@ -1504,8 +1764,8 @@ namespace NIP24
             {
                 if (!KRS.IsValid(number))
                 {
-                    LastError = "Numer KRS jest nieprawidłowy";
-                    return null;
+					Set(Error.CLI_KRS);
+					return null;
                 }
 
                 path = "krs/" + KRS.Normalize(number);
@@ -1514,16 +1774,31 @@ namespace NIP24
             {
                 if (!EUVAT.IsValid(number))
                 {
-                    LastError = "Numer EU VAT ID jest nieprawidłowy";
-                    return null;
+					Set(Error.CLI_EUVAT);
+					return null;
                 }
 
                 path = "euvat/" + EUVAT.Normalize(number);
             }
+			else if (type.Equals(Number.IBAN))
+			{
+				if (!IBAN.IsValid(number))
+				{
+					number = "PL" + number;
+
+					if (!IBAN.IsValid(number))
+					{
+						Set(Error.CLI_IBAN);
+						return null;
+					}
+				}
+
+				path = "iban/" + IBAN.Normalize(number);
+			}
             else
             {
-                LastError = "Nieprawidłowy typ numeru";
-                return null;
+				Set(Error.CLI_NUMBER);
+				return null;
             }
 
             return path;

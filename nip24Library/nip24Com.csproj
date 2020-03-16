@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="AccountStatus.cs" />
     <Compile Include="AllData.cs" />
+    <Compile Include="Error.cs" />
     <Compile Include="EUVAT.cs" />
     <Compile Include="IBAN.cs" />
     <Compile Include="IBANStatus.cs" />
@@ -67,6 +68,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="REGON.cs" />
+    <Compile Include="SearchResult.cs" />
+    <Compile Include="VATEntity.cs" />
+    <Compile Include="VATPerson.cs" />
     <Compile Include="VATStatus.cs" />
     <Compile Include="VIESData.cs" />
     <Compile Include="WLStatus.cs" />
