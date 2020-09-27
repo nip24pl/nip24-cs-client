@@ -147,138 +147,144 @@ namespace NIP24
 		bool JPKVAT { get; set; }
 
 		/// <summary>
-		/// Dostęp do statystyk wykonanych zapytań
+		/// Dostęp z wykorzystaniem aplikacji CLI/CMD
 		/// </summary>
 		[DispId(20)]
+		bool CLI { get; set; }
+
+		/// <summary>
+		/// Dostęp do statystyk wykonanych zapytań
+		/// </summary>
+		[DispId(21)]
 		bool Stats { get; set; }
 
 		/// <summary>
 		/// Dostęp do monitorowania statusów podmiotów: VAT/VIES/Status działalności
 		/// </summary>
-		[DispId(21)]
+		[DispId(22)]
 		bool NIPMonitor { get; set; }
 
 		/// <summary>
 		/// Wyszukiwanie po numerze NIP
 		/// </summary>
-		[DispId(22)]
+		[DispId(23)]
 		bool SearchByNIP { get; set; }
 
 		/// <summary>
 		/// Wyszukiwanie po numerze REGON
 		/// </summary>
-		[DispId(23)]
+		[DispId(24)]
 		bool SearchByREGON { get; set; }
 
 		/// <summary>
 		/// Wyszukiwanie po numerze KRS
 		/// </summary>
-		[DispId(24)]
+		[DispId(25)]
 		bool SearchByKRS { get; set; }
 
 		/// <summary>
 		/// Dostęp do funkcji sprawdzających status działalności podmiotu
 		/// </summary>
-		[DispId(25)]
+		[DispId(26)]
 		bool FuncIsActive { get; set; }
 
 		/// <summary>
 		/// Dostęp do funkcji pobierających dane podmiotu do faktury
 		/// </summary>
-		[DispId(26)]
+		[DispId(27)]
 		bool FuncGetInvoiceData { get; set; }
 
 		/// <summary>
 		/// Dostęp do funkcji pobierających pełne dane podmiotu
 		/// </summary>
-		[DispId(27)]
+		[DispId(28)]
 		bool FuncGetAllData { get; set; }
 
 		/// <summary>
 		/// Dostęp do funkcji sprawdzających status podmiotu w systemie VIES
 		/// </summary>
-		[DispId(28)]
+		[DispId(29)]
 		bool FuncGetVIESData { get; set; }
 
 		/// <summary>
 		/// Dostęp do funkcji sprawdzających status podmiotu w rejestrze VAT
 		/// </summary>
-		[DispId(29)]
+		[DispId(30)]
 		bool FuncGetVATStatus { get; set; }
 
 		/// <summary>
 		/// Dostęp do funkcji sprawdzających status rachunku bankowego firmy
 		/// </summary>
-		[DispId(30)]
+		[DispId(31)]
 		bool FuncGetIBANStatus { get; set; }
 
 		/// <summary>
 		/// Dostęp do funkcji sprawdzających status podmiotu na białej liście podatników VAT
 		/// </summary>
-		[DispId(31)]
+		[DispId(32)]
 		bool FuncGetWhitelistStatus { get; set; }
 
 		/// <summary>
 		/// Dostęp do funkcji wyszukującej dane w rejestrze VAT
 		/// </summary>
-		[DispId(32)]
+		[DispId(33)]
 		bool FuncSearchVAT { get; set; }
 
 		/// <summary>
 		/// Ilość wykonanych zapytań o dane podmiotu do faktury
 		/// </summary>
-		[DispId(33)]
+		[DispId(34)]
 		int InvoiceDataCount { get; set; }
 
 		/// <summary>
 		/// Ilość wykonanych zapytań o pełne dane podmiotu
 		/// </summary>
-		[DispId(34)]
+		[DispId(35)]
 		int AllDataCount { get; set; }
 
 		/// <summary>
 		/// Ilość wykonanych zapytań o status działalności podmiotu
 		/// </summary>
-		[DispId(35)]
+		[DispId(36)]
 		int FirmStatusCount { get; set; }
 
 		/// <summary>
 		/// Ilość wykonanych zapytań o status podmiotu w rejestrze VAT
 		/// </summary>
-		[DispId(36)]
+		[DispId(37)]
 		int VATStatusCount { get; set; }
 
 		/// <summary>
 		/// Ilość wykonanych zapytań o status podmiotu w systemie VIES
 		/// </summary>
-		[DispId(37)]
+		[DispId(38)]
 		int VIESStatusCount { get; set; }
 
 		/// <summary>
 		/// Ilość wykonanych zapytań o status rachunku bankowego firmy
 		/// </summary>
-		[DispId(38)]
+		[DispId(39)]
 		int IBANStatusCount { get; set; }
 
 		/// <summary>
 		/// Ilość wykonanych zapytań o status podmiotu na białej liście
 		/// </summary>
-		[DispId(39)]
+		[DispId(40)]
 		int WhitelistStatusCount { get; set; }
 
 		/// <summary>
 		/// Ilość wykonanych zapytań wyszukiwania danych w rejestrze VAT
 		/// </summary>
-		[DispId(40)]
+		[DispId(41)]
 		int SearchVATCount { get; set; }
 
 		/// <summary>
 		/// Całkowita ilość wykonanych zapytań w bieżącym miesiącu
 		/// </summary>
-		[DispId(41)]
+		[DispId(42)]
 		int TotalCount { get; set; }
 
-		[DispId(42)]
+		[DispId(43)]
 		string ToString();
 	}
 
@@ -398,6 +404,11 @@ namespace NIP24
 		/// Dostęp z wykorzystaniem aplikacji JPK_VAT
 		/// </summary>
 		public bool JPKVAT { get; set; }
+
+		/// <summary>
+		/// Dostęp z wykorzystaniem aplikacji CLI/CMD
+		/// </summary>
+		public bool CLI { get; set; }
 
 		/// <summary>
 		/// Dostęp do statystyk wykonanych zapytań
@@ -540,6 +551,7 @@ namespace NIP24
 				+ ", terytCodes = " + TerytCodes
 				+ ", excelAddIn = " + ExcelAddIn
 				+ ", JPK_VAT = " + JPKVAT
+				+ ", CLI = " + CLI
 				+ ", stats = " + Stats
 				+ ", NIPMonitor = " + NIPMonitor
 				

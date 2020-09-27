@@ -333,7 +333,7 @@ namespace NIP24
 	[ComVisible(true)]
 	public class NIP24Client : INIP24Client
 	{
-		public const string VERSION = "1.4.2";
+		public const string VERSION = "1.4.3";
 
 		public const string PRODUCTION_URL = "https://www.nip24.pl/api";
 		public const string TEST_URL = "https://www.nip24.pl/api-test";
@@ -1466,6 +1466,7 @@ namespace NIP24
 				status.TerytCodes = GetString(doc, "/result/account/billingPlan/terytCodes", "false").Equals("true");
 				status.ExcelAddIn = GetString(doc, "/result/account/billingPlan/excelAddin", "false").Equals("true");
 				status.JPKVAT = GetString(doc, "/result/account/billingPlan/jpkVat", "false").Equals("true");
+				status.CLI = GetString(doc, "/result/account/billingPlan/cli", "false").Equals("true");
 				status.Stats = GetString(doc, "/result/account/billingPlan/stats", "false").Equals("true");
 				status.NIPMonitor = GetString(doc, "/result/account/billingPlan/nipMonitor", "false").Equals("true");
 

@@ -30,7 +30,7 @@ namespace NIP24
     /// </summary>
 	[Guid("391447EE-C340-4100-A0BF-187728355864")]
     [ClassInterface(ClassInterfaceType.None)]
-    [ComVisible(true)]
+    [ComVisible(false)]
     public class Error
     {
         public const int NIP_EMPTY             = 1;
