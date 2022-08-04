@@ -1,5 +1,5 @@
 ﻿/**
- * Copyright 2015-2020 NETCAT (www.netcat.pl)
+ * Copyright 2015-2022 NETCAT (www.netcat.pl)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  * @author NETCAT <firma@netcat.pl>
- * @copyright 2015-2020 NETCAT (www.netcat.pl)
+ * @copyright 2015-2022 NETCAT (www.netcat.pl)
  * @license http://www.apache.org/licenses/LICENSE-2.0
  */
 
@@ -69,18 +69,24 @@ namespace NIP24
 		string Result { get; set; }
 
 		/// <summary>
-		/// Data sprawdzenia
+		/// Identyfikator sprawdzenia w systemie MF
 		/// </summary>
 		[DispId(7)]
+		string ID { get; set; }
+
+		/// <summary>
+		/// Data sprawdzenia
+		/// </summary>
+		[DispId(8)]
 		DateTime Date { get; set; }
 
 		/// <summary>
 		/// Źródło informacji o statusie
 		/// </summary>
-		[DispId(8)]
+		[DispId(9)]
 		string Source { get; set; }
 
-		[DispId(9)]
+		[DispId(10)]
 		string ToString();
     }
 
@@ -131,6 +137,11 @@ namespace NIP24
 		public string Result { get; set; }
 
 		/// <summary>
+		/// Identyfikator sprawdzenia w systemie MF
+		/// </summary>
+		public string ID { get; set; }
+
+		/// <summary>
 		/// Data sprawdzenia
 		/// </summary>
 		[ComVisible(false)]
@@ -165,6 +176,7 @@ namespace NIP24
 				+ ", name = " + Name
 				+ ", status = " + Status
 				+ ", result = " + Result
+				+ ", id = " + ID
 				+ ", date = " + Date
 				+ ", source = " + Source
 				+ "]";

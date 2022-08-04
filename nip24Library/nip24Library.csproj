@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>net20;net452;net462;net472;netstandard2.0;netcoreapp2.2</TargetFrameworks>
+		<TargetFrameworks>net20;net452;net462;net472;netstandard2.0;netcoreapp3.1;net5.0</TargetFrameworks>
 		<RuntimeIdentifiers>win</RuntimeIdentifiers>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
 		<PackageId>NIP24.NIP24Client</PackageId>
-		<Version>1.4.3</Version>
-		<AssemblyVersion>1.4.3.0</AssemblyVersion>
-		<FileVersion>1.4.3.0</FileVersion>
+		<Version>1.4.5</Version>
+		<AssemblyVersion>1.4.5.0</AssemblyVersion>
+		<FileVersion>1.4.5.0</FileVersion>
 
 		<Title>NIP24 Service Client</Title>
 		<Summary>NIP24 Service Client for .NET Framework (C#)</Summary>
@@ -16,7 +16,7 @@
 		<Company>NETCAT</Company>
 		<Product>NIP24</Product>
 		<Authors>NETCAT</Authors>
-		<Copyright>Copyright © 2015-2020 by NETCAT (www.netcat.pl)</Copyright>
+		<Copyright>Copyright © 2015-2022 by NETCAT (www.netcat.pl)</Copyright>
 		<PackageLicenseUrl></PackageLicenseUrl>
 		<PackageProjectUrl>https://www.nip24.pl</PackageProjectUrl>
 

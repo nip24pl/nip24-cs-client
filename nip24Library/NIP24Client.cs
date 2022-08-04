@@ -1,5 +1,5 @@
 ﻿/**
- * Copyright 2015-2020 NETCAT (www.netcat.pl)
+ * Copyright 2015-2022 NETCAT (www.netcat.pl)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  * @author NETCAT <firma@netcat.pl>
- * @copyright 2015-2020 NETCAT (www.netcat.pl)
+ * @copyright 2015-2022 NETCAT (www.netcat.pl)
  * @license http://www.apache.org/licenses/LICENSE-2.0
  */
 
@@ -333,7 +333,7 @@ namespace NIP24
 	[ComVisible(true)]
 	public class NIP24Client : INIP24Client
 	{
-		public const string VERSION = "1.4.3";
+		public const string VERSION = "1.4.5";
 
 		public const string PRODUCTION_URL = "https://www.nip24.pl/api";
 		public const string TEST_URL = "https://www.nip24.pl/api-test";
@@ -937,6 +937,7 @@ namespace NIP24
 				vat.Status = int.Parse(GetString(doc, "/result/vat/status", "0"));
 				vat.Result = GetString(doc, "/result/vat/result", null);
 
+				vat.ID = GetString(doc, "/result/vat/id", null);
 				vat.Date = GetDateTime(doc, "/result/vat/date");
 				vat.Source = GetString(doc, "/result/vat/source", null);
 
