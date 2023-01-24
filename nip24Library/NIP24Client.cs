@@ -333,7 +333,7 @@ namespace NIP24
 	[ComVisible(true)]
 	public class NIP24Client : INIP24Client
 	{
-		public const string VERSION = "1.4.5";
+		public const string VERSION = "1.4.6";
 
 		public const string PRODUCTION_URL = "https://www.nip24.pl/api";
 		public const string TEST_URL = "https://www.nip24.pl/api-test";
@@ -1546,21 +1546,21 @@ namespace NIP24
 					{
 						ServicePointManager.SecurityProtocol = (SecurityProtocolType)768 | (SecurityProtocolType)3072 | (SecurityProtocolType)12288;
 					}
-					catch (Exception e1)
+					catch (Exception)
 					{
 						// no tls13
 						try
 						{
 							ServicePointManager.SecurityProtocol = (SecurityProtocolType)768 | (SecurityProtocolType)3072;
 						}
-						catch (Exception e2)
-						{
+						catch (Exception)
+                        {
 							// no tls12
 							try
 							{
 								ServicePointManager.SecurityProtocol = (SecurityProtocolType)768;
 							}
-							catch (Exception e3)
+							catch (Exception)
 							{
 								// no tls11
 							}
