@@ -5,9 +5,9 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
 		<PackageId>NIP24.NIP24Client</PackageId>
-		<Version>1.4.7</Version>
-		<AssemblyVersion>1.4.7.0</AssemblyVersion>
-		<FileVersion>1.4.7.0</FileVersion>
+		<Version>1.4.8</Version>
+		<AssemblyVersion>1.4.8.0</AssemblyVersion>
+		<FileVersion>1.4.8.0</FileVersion>
 
 		<Title>NIP24 Service Client</Title>
 		<Summary>NIP24 Service Client for .NET Framework (C#)</Summary>
@@ -62,31 +62,7 @@
 		<Reference Include="System.Xml" />
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-	  <PackageReference Include="System.Configuration.ConfigurationManager">
-	    <Version>7.0.0</Version>
-	  </PackageReference>
-	</ItemGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
-	  <PackageReference Include="System.Configuration.ConfigurationManager">
-	    <Version>7.0.0</Version>
-	  </PackageReference>
-	</ItemGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
-	  <PackageReference Include="System.Configuration.ConfigurationManager">
-	    <Version>7.0.0</Version>
-	  </PackageReference>
-	</ItemGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-	  <PackageReference Include="System.Configuration.ConfigurationManager">
-	    <Version>7.0.0</Version>
-	  </PackageReference>
-	</ItemGroup>
-
 	<ItemGroup>
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	</ItemGroup>
 </Project>

@@ -3,12 +3,14 @@
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
  * limitations under the License.
  *
  * @author NETCAT <firma@netcat.pl>
@@ -30,10 +32,12 @@ namespace NIP24
 		{
 			try
 			{
+				// Utworzenie obiektu klienta usługi serwisu produkcyjnego
 				// id – ciąg znaków reprezentujący identyfikator klucza API
 				// key – ciąg znaków reprezentujący klucz API
 				// NIP24Client nip24 = new NIP24Client("id", "key");
 
+				// Utworzenie obiektu klienta usługi serwisu testowego
 				NIP24Client nip24 = new NIP24Client();
 
 				string nip = "7171642051";
@@ -41,6 +45,7 @@ namespace NIP24
 				string account_number = "49154000046458439719826658";
 				string krs_number = "0000030897";
 
+				// Sprawdzenie stanu konta
 				AccountStatus account = nip24.GetAccountStatus();
 
 				if (account != null)
@@ -71,6 +76,7 @@ namespace NIP24
 					}
 				}
 
+				// Sprawdzenie statusu firmy w rejestrze VAT
 				VATStatus vat = nip24.GetVATStatus(Number.NIP, nip);
 
 				if (vat != null)
@@ -142,6 +148,7 @@ namespace NIP24
 					Console.WriteLine("Błąd: " + nip24.LastError + " (kod: " + nip24.LastErrorCode + ")");
 				}
 
+				// Wywołanie metody wyszukującej dane w rejestrze VAT
 				SearchResult result = nip24.SearchVATRegistry(Number.NIP, nip);
 
 				if (result != null)

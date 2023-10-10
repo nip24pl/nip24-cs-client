@@ -355,7 +355,7 @@ namespace NIP24
 	[ComVisible(true)]
 	public class NIP24Client : INIP24Client
 	{
-		public const string VERSION = "1.4.7";
+		public const string VERSION = "1.4.8";
 
 		public const string PRODUCTION_URL = "https://www.nip24.pl/api";
 		public const string TEST_URL = "https://www.nip24.pl/api-test";
@@ -1473,7 +1473,7 @@ namespace NIP24
                 // prepare url
                 Uri url = new Uri(URL + "/get/krs/current/" + suffix + "/" + section);
 
-				return (KRSData)Get(url, typeof(KRSData));
+				return (KRSData)Get(url, "krs", typeof(KRSData));
             }
             catch (Exception e)
             {
@@ -1596,10 +1596,12 @@ namespace NIP24
 		}
 
         /// <summary>
+		/// HTTP GET
         /// </summary>
         /// <param name="url">adres URL</param>
+		/// <param name="mimetype">typ odpowiedzi (application/xml lub application/json)</param>
         /// <returns>pobrana odpowiedź lub null</returns>
-        private byte[] GetBytes(Uri url)
+        private byte[] GetBytes(Uri url, string mimetype)
         {
             try
             {
@@ -1640,6 +1642,7 @@ namespace NIP24
                 {
                     wc.Proxy = Proxy;
 
+					wc.Headers.Set("Accept", mimetype);
                     wc.Headers.Set("Authorization", GetAuthHeader("GET", url));
                     wc.Headers.Set("User-Agent", GetAgentHeader());
 
@@ -1655,6 +1658,7 @@ namespace NIP24
         }
 
         /// <summary>
+		/// Pobranie odpowiedzi jako XML
         /// </summary>
         /// <param name="url">adres URL</param>
         /// <returns>pobrana odpowiedź lub null</returns>
@@ -1663,7 +1667,7 @@ namespace NIP24
             try
             {
 				// get response
-				byte[] b = GetBytes(url);
+				byte[] b = GetBytes(url, "application/xml");
 
 				if (b == null)
 				{
@@ -1682,11 +1686,13 @@ namespace NIP24
         }
 
         /// <summary>
+		/// Pobranie odpowiedzi jako obiektu
         /// </summary>
         /// <param name="url">adres URL</param>
+		/// <param name="attr">nazwa atrybutu JSON do zwrócenia</param>
         /// <param name="type">typ obiektu do zwrócenia w odpowiedzi</param>
         /// <returns>pobrana odpowiedź lub null</returns>
-        private object Get(Uri url, Type type)
+        private object Get(Uri url, string attr, Type type)
 		{
             JsonSerializerSettings s = new JsonSerializerSettings
             {
@@ -1696,7 +1702,7 @@ namespace NIP24
             try
             {
 				// get response
-                byte[] b = GetBytes(url);
+                byte[] b = GetBytes(url, "application/json");
 
                 if (b == null)
                 {
@@ -1728,7 +1734,7 @@ namespace NIP24
 					return null;
 				}
 
-				return json["krs"].ToObject(type);
+				return json[attr].ToObject(type);
             }
             catch (Exception e)
             {
