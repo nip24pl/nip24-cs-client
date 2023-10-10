@@ -1,5 +1,5 @@
 ﻿/**
- * Copyright 2015-2022 NETCAT (www.netcat.pl)
+ * Copyright 2015-2023 NETCAT (www.netcat.pl)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,10 +14,14 @@
  * limitations under the License.
  *
  * @author NETCAT <firma@netcat.pl>
- * @copyright 2015-2022 NETCAT (www.netcat.pl)
+ * @copyright 2015-2023 NETCAT (www.netcat.pl)
  * @license http://www.apache.org/licenses/LICENSE-2.0
  */
 
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using NIP24.Model;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -313,11 +317,29 @@ namespace NIP24
 		[DispId(32)]
 		SearchResult SearchVATRegistry(string nip);
 
-		/// <summary>
-		/// Sprawdzenie bieżącego stanu konta użytkownika
-		/// </summary>
-		/// <returns>status konta lub null w przypadku błędu</returns>
-		[DispId(33)]
+        /// <summary>
+        /// Pobranie danych firmy z rejestru KRS
+        /// </summary>
+        /// <param name="type">typ numeru identyfikującego firmę</param>
+        /// <param name="number">numer określonego typu</param>
+        /// <returns>wyszukane dane lub null w przypadku błędu</returns>
+        [DispId(33)]
+        KRSData GetKRSData(Number type, string number);
+
+        /// <summary>
+        /// Pobranie danych firmy z rejestru KRS
+        /// </summary>
+        /// <param name="type">typ numeru identyfikującego firmę</param>
+        /// <param name="number">numer określonego typu</param>
+        /// <returns>wyszukane dane lub null w przypadku błędu</returns>
+        [DispId(34)]
+		KRSData GetKRSSection(Number type, string number, int section);
+
+        /// <summary>
+        /// Sprawdzenie bieżącego stanu konta użytkownika
+        /// </summary>
+        /// <returns>status konta lub null w przypadku błędu</returns>
+        [DispId(35)]
         AccountStatus GetAccountStatus();
     }
 
@@ -333,7 +355,7 @@ namespace NIP24
 	[ComVisible(true)]
 	public class NIP24Client : INIP24Client
 	{
-		public const string VERSION = "1.4.6";
+		public const string VERSION = "1.4.7";
 
 		public const string PRODUCTION_URL = "https://www.nip24.pl/api";
 		public const string TEST_URL = "https://www.nip24.pl/api-test";
@@ -1411,11 +1433,60 @@ namespace NIP24
 			return SearchVATRegistry(Number.NIP, nip, (string)null);
 		}
 
-		/// <summary>
-		/// Sprawdzenie bieżącego stanu konta użytkownika
-		/// </summary>
-		/// <returns>status konta lub null w przypadku błędu</returns>
-		public AccountStatus GetAccountStatus()
+        /// <summary>
+        /// Pobranie danych firmy z rejestru KRS
+        /// </summary>
+        /// <param name="type">typ numeru identyfikującego firmę</param>
+        /// <param name="number">numer określonego typu</param>
+		/// <returns>wyszukane dane lub null w przypadku błędu</returns>
+        public KRSData GetKRSData(Number type, string number)
+		{
+			return GetKRSSection(type, number, 0);
+		}
+
+        /// <summary>
+        /// Pobranie danych firmy z rejestru KRS
+        /// </summary>
+        /// <param name="type">typ numeru identyfikującego firmę</param>
+        /// <param name="number">numer określonego typu</param>
+		/// <returns>wyszukane dane lub null w przypadku błędu</returns>
+		public KRSData GetKRSSection(Number type, string number, int section)
+		{
+            try
+            {
+                Clear();
+
+                // validate number and construct path
+                string suffix = null;
+
+                if ((suffix = GetPathSuffix(type, number)) == null)
+                {
+                    return null;
+                }
+
+                if (section < 0 || section > 6)
+                {
+                    Set(Error.CLI_INPUT);
+                    return null;
+                }
+
+                // prepare url
+                Uri url = new Uri(URL + "/get/krs/current/" + suffix + "/" + section);
+
+				return (KRSData)Get(url, typeof(KRSData));
+            }
+            catch (Exception e)
+            {
+                Set(Error.CLI_EXCEPTION, e.Message);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <returns>status konta lub null w przypadku błędu</returns>
+        public AccountStatus GetAccountStatus()
 		{
 			try
 			{
@@ -1524,75 +1595,154 @@ namespace NIP24
 			LastError = (string.IsNullOrEmpty(err) ? Error.Message(code) : err);
 		}
 
-		/// <summary>
-		/// Metoda HTTP GET
-		/// </summary>
-		/// <param name="url">adres URL</param>
-		/// <returns>pobrana odpowiedź lub null</returns>
-		private XPathDocument Get(Uri url)
-		{
-			XPathDocument doc = null;
-
-			try
-			{
-				if (!LegacyProtocolsEnabled)
-				{
-					// SecurityProtocolType:
-					// Tls		192
-					// Tls11	768
-					// Tls12	3072
-					// Tls13	12288
-					try
-					{
-						ServicePointManager.SecurityProtocol = (SecurityProtocolType)768 | (SecurityProtocolType)3072 | (SecurityProtocolType)12288;
-					}
-					catch (Exception)
-					{
-						// no tls13
-						try
-						{
-							ServicePointManager.SecurityProtocol = (SecurityProtocolType)768 | (SecurityProtocolType)3072;
-						}
-						catch (Exception)
+        /// <summary>
+        /// </summary>
+        /// <param name="url">adres URL</param>
+        /// <returns>pobrana odpowiedź lub null</returns>
+        private byte[] GetBytes(Uri url)
+        {
+            try
+            {
+                if (!LegacyProtocolsEnabled)
+                {
+                    // SecurityProtocolType:
+                    // Tls		192
+                    // Tls11	768
+                    // Tls12	3072
+                    // Tls13	12288
+                    try
+                    {
+                        ServicePointManager.SecurityProtocol = (SecurityProtocolType)768 | (SecurityProtocolType)3072 | (SecurityProtocolType)12288;
+                    }
+                    catch (Exception)
+                    {
+                        // no tls13
+                        try
                         {
-							// no tls12
-							try
-							{
-								ServicePointManager.SecurityProtocol = (SecurityProtocolType)768;
-							}
-							catch (Exception)
-							{
-								// no tls11
-							}
-						}
-					}
-				}
+                            ServicePointManager.SecurityProtocol = (SecurityProtocolType)768 | (SecurityProtocolType)3072;
+                        }
+                        catch (Exception)
+                        {
+                            // no tls12
+                            try
+                            {
+                                ServicePointManager.SecurityProtocol = (SecurityProtocolType)768;
+                            }
+                            catch (Exception)
+                            {
+                                // no tls11
+                            }
+                        }
+                    }
+                }
 
-				using (WebClient wc = new WebClient())
+                using (WebClient wc = new WebClient())
+                {
+                    wc.Proxy = Proxy;
+
+                    wc.Headers.Set("Authorization", GetAuthHeader("GET", url));
+                    wc.Headers.Set("User-Agent", GetAgentHeader());
+
+                    return wc.DownloadData(url);
+                }
+            }
+            catch (Exception e)
+            {
+                Set(Error.CLI_EXCEPTION, e.Message);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="url">adres URL</param>
+        /// <returns>pobrana odpowiedź lub null</returns>
+        private XPathDocument Get(Uri url)
+        {
+            try
+            {
+				// get response
+				byte[] b = GetBytes(url);
+
+				if (b == null)
 				{
-					wc.Proxy = Proxy;
-
-					wc.Headers.Set("Authorization", GetAuthHeader("GET", url));
-					wc.Headers.Set("User-Agent", GetAgentHeader());
-
-					byte[] b = wc.DownloadData(url);
-
-					doc = new XPathDocument(new MemoryStream(b));
+					return null;
 				}
-			}
-			catch (Exception e)
-			{
-				Set(Error.CLI_EXCEPTION, e.Message);
-			}
 
-			return doc;
-		}
+				// parse
+                return new XPathDocument(new MemoryStream(b));
+            }
+            catch (Exception e)
+            {
+                Set(Error.CLI_EXCEPTION, e.Message);
+            }
 
-		/// <summary>
-		/// Przygotowanie nagłówka z danymi o kliencie
-		/// </summary>
-		/// <returns>dane o kliencie</returns>
-		private string GetAgentHeader()
+            return null;
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="url">adres URL</param>
+        /// <param name="type">typ obiektu do zwrócenia w odpowiedzi</param>
+        /// <returns>pobrana odpowiedź lub null</returns>
+        private object Get(Uri url, Type type)
+		{
+            JsonSerializerSettings s = new JsonSerializerSettings
+            {
+                ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
+            };
+
+            try
+            {
+				// get response
+                byte[] b = GetBytes(url);
+
+                if (b == null)
+                {
+                    return null;
+                }
+
+                // parse
+                JObject json;
+
+				try
+				{
+					json = JsonConvert.DeserializeObject<JObject>(Encoding.UTF8.GetString(b), s);
+
+					if (json == null)
+					{
+                        Set(Error.CLI_RESPONSE);
+						return null;
+                    }
+				}
+				catch (Exception)
+				{
+                    Set(Error.CLI_RESPONSE);
+                    return null;
+                }
+
+				if (json.ContainsKey("error"))
+				{
+					Set((int)json["error"]["code"], (string)json["error"]["description"]);
+					return null;
+				}
+
+				return json["krs"].ToObject(type);
+            }
+            catch (Exception e)
+            {
+                Set(Error.CLI_EXCEPTION, Error.Message(Error.CLI_EXCEPTION) + ": " + e.Message);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Przygotowanie nagłówka z danymi o kliencie
+        /// </summary>
+        /// <returns>dane o kliencie</returns>
+        private string GetAgentHeader()
 		{
 			return (string.IsNullOrEmpty(Application) ? "" : Application + " ") + "NIP24Client/" + VERSION + " .NET/" + Environment.Version;
 		}

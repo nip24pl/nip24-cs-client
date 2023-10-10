@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NIP24</RootNamespace>
     <AssemblyName>nip24Library</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -38,6 +38,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -74,6 +75,106 @@
     <Compile Include="VATStatus.cs" />
     <Compile Include="VIESData.cs" />
     <Compile Include="WLStatus.cs" />
+    <Compile Include="Model\AccountStatus.cs" />
+    <Compile Include="Model\AccountStatusResult.cs" />
+    <Compile Include="Model\Adres.cs" />
+    <Compile Include="Model\AllData.cs" />
+    <Compile Include="Model\AllDataEntity.cs" />
+    <Compile Include="Model\AllDataRecord.cs" />
+    <Compile Include="Model\AllDataResult.cs" />
+    <Compile Include="Model\BillingPlan.cs" />
+    <Compile Include="Model\BillingPlanRequests.cs" />
+    <Compile Include="Model\CelDzialaniaOrganizacji.cs" />
+    <Compile Include="Model\CzescKapitaluWplaconegoPokrytego.cs" />
+    <Compile Include="Model\Dane.cs" />
+    <Compile Include="Model\DaneEgzekucji.cs" />
+    <Compile Include="Model\DaneKrs.cs" />
+    <Compile Include="Model\DaneOWczesniejszejRejestracji.cs" />
+    <Compile Include="Model\DanePodmiotu.cs" />
+    <Compile Include="Model\DaneSyndyka.cs" />
+    <Compile Include="Model\Dzial1.cs" />
+    <Compile Include="Model\Dzial2.cs" />
+    <Compile Include="Model\Dzial3.cs" />
+    <Compile Include="Model\Dzial4.cs" />
+    <Compile Include="Model\Dzial5.cs" />
+    <Compile Include="Model\Dzial6.cs" />
+    <Compile Include="Model\Dzialalnosci.cs" />
+    <Compile Include="Model\EmisjeAkcji.cs" />
+    <Compile Include="Model\Error.cs" />
+    <Compile Include="Model\ErrorResult.cs" />
+    <Compile Include="Model\FirmStatusResult.cs" />
+    <Compile Include="Model\IBANStatus.cs" />
+    <Compile Include="Model\IBANStatusResult.cs" />
+    <Compile Include="Model\IdentyfikatorOsoby.cs" />
+    <Compile Include="Model\IdentyfikatoryPodmiotu.cs" />
+    <Compile Include="Model\ImionaOsoby.cs" />
+    <Compile Include="Model\InformacjaODniuKonczacymRokObrotowy.cs" />
+    <Compile Include="Model\InformacjaOOgloszeniuUpadlosci.cs" />
+    <Compile Include="Model\InformacjaOZawarciuZmianieUmowyStatutu.cs" />
+    <Compile Include="Model\InvoiceData.cs" />
+    <Compile Include="Model\InvoiceDataResult.cs" />
+    <Compile Include="Model\JednostkiTerenoweOddzialy.cs" />
+    <Compile Include="Model\JedynyAkcjonariusz.cs" />
+    <Compile Include="Model\Kapital.cs" />
+    <Compile Include="Model\KRSData.cs" />
+    <Compile Include="Model\KRSDataResult.cs" />
+    <Compile Include="Model\Kurator.cs" />
+    <Compile Include="Model\Likwidacja.cs" />
+    <Compile Include="Model\NaglowekA.cs" />
+    <Compile Include="Model\NazwiskoOsoby.cs" />
+    <Compile Include="Model\Odpis.cs" />
+    <Compile Include="Model\OpisZakonczeniaProcesuUpadlosci.cs" />
+    <Compile Include="Model\OrganNadzoru.cs" />
+    <Compile Include="Model\OrganSprawujacyNadzor.cs" />
+    <Compile Include="Model\Osoba.cs" />
+    <Compile Include="Model\OtwarciePostepowaniaRestrukturyzacyjnegoNaprawczegoPrzymusowejRestrukturyzacji.cs" />
+    <Compile Include="Model\OtwarciePostepowaniaUkladowego.cs" />
+    <Compile Include="Model\PKD.cs" />
+    <Compile Include="Model\Podmioty.cs" />
+    <Compile Include="Model\PolaczeniePodzialPrzeksztalcenie.cs" />
+    <Compile Include="Model\PostepowanieRestrukturyzacyjneNaprawczePrzymusowaRestrukturyzacja.cs" />
+    <Compile Include="Model\PostepowanieUkladowe.cs" />
+    <Compile Include="Model\PostepowanieUpadlosciowe.cs" />
+    <Compile Include="Model\PozostaleInformacje.cs" />
+    <Compile Include="Model\Prokurenci.cs" />
+    <Compile Include="Model\PrzedmiotDzialalnosci.cs" />
+    <Compile Include="Model\PrzedmiotDzialalnosciOPP.cs" />
+    <Compile Include="Model\Rejestr.cs" />
+    <Compile Include="Model\Reprezentacja.cs" />
+    <Compile Include="Model\RodzajOdpisu.cs" />
+    <Compile Include="Model\RozwiazanieUniewaznienie.cs" />
+    <Compile Include="Model\SearchResult.cs" />
+    <Compile Include="Model\SearchResultResult.cs" />
+    <Compile Include="Model\Siedziba.cs" />
+    <Compile Include="Model\SiedzibaIAdres.cs" />
+    <Compile Include="Model\Sklad.cs" />
+    <Compile Include="Model\SposobPowstaniaPodmiotu.cs" />
+    <Compile Include="Model\SprawozdaniaGrupyKapitalowej.cs" />
+    <Compile Include="Model\UmowaStatut.cs" />
+    <Compile Include="Model\VATEntity.cs" />
+    <Compile Include="Model\VATEntityStatus.cs" />
+    <Compile Include="Model\VATPerson.cs" />
+    <Compile Include="Model\VATStatus.cs" />
+    <Compile Include="Model\VATStatusResult.cs" />
+    <Compile Include="Model\VIESData.cs" />
+    <Compile Include="Model\VIESDataResult.cs" />
+    <Compile Include="Model\WartoscJednejAkcji.cs" />
+    <Compile Include="Model\WhitelistStatus.cs" />
+    <Compile Include="Model\WhitelistStatusResult.cs" />
+    <Compile Include="Model\WspolnicySpzoo.cs" />
+    <Compile Include="Model\WszczecieEgzekucji.cs" />
+    <Compile Include="Model\WysokoscKapitaluZakladowego.cs" />
+    <Compile Include="Model\WysokoscZaleglosci.cs" />
+    <Compile Include="Model\Wzmianka.cs" />
+    <Compile Include="Model\WzmiankaOPodjeciuUchwalyOEmisjachObligacjiZamiennych.cs" />
+    <Compile Include="Model\WzmiankaOUpowaznieniuDoEmisjiWarrantowSubskrypcyjnych.cs" />
+    <Compile Include="Model\WzmiankiOZlozonychDokumentach.cs" />
+    <Compile Include="Model\ZabezpieczenieMajatkuDluznikaWPostepowaniuUpadlosciowym.cs" />
+    <Compile Include="Model\ZabezpieczenieMajatkuOddalenieWnioskuOUpadlosc.cs" />
+    <Compile Include="Model\ZakonczeniePostepowaniaRestrukturyzacyjnegoNaprawczegoPrzymusowejRestrukturyzacji.cs" />
+    <Compile Include="Model\ZakonczeniePostepowaniaUkladowego.cs" />
+    <Compile Include="Model\Zaleglosci.cs" />
+    <Compile Include="Model\ZawieszenieWznowienie.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -84,12 +185,14 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="nip24Library.snk" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\nip24client\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\nip24client\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
