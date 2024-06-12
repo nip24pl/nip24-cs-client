@@ -1,5 +1,5 @@
 ﻿/**
- * Copyright 2015-2023 NETCAT (www.netcat.pl)
+ * Copyright 2015-2024 NETCAT (www.netcat.pl)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  * @author NETCAT <firma@netcat.pl>
- * @copyright 2015-2023 NETCAT (www.netcat.pl)
+ * @copyright 2015-2024 NETCAT (www.netcat.pl)
  * @license http://www.apache.org/licenses/LICENSE-2.0
  */
 
@@ -355,7 +355,7 @@ namespace NIP24
 	[ComVisible(true)]
 	public class NIP24Client : INIP24Client
 	{
-		public const string VERSION = "1.4.8";
+		public const string VERSION = "1.4.9";
 
 		public const string PRODUCTION_URL = "https://www.nip24.pl/api";
 		public const string TEST_URL = "https://www.nip24.pl/api-test";
@@ -772,6 +772,31 @@ namespace NIP24
 				ad.OwnershipFormCode = GetString(doc, "/result/firm/ownershipForm/code", null);
 				ad.OwnershipFormName = GetString(doc, "/result/firm/ownershipForm/name", null);
 
+                for (int i = 1; ; i++)
+                {
+                    string regon = GetString(doc, "/result/firm/businessPartners/businessPartner[" + i + "]/regon", null);
+
+                    if (regon == null)
+                    {
+                        break;
+                    }
+
+                    string firm = GetString(doc, "/result/firm/businessPartners/businessPartner[" + i + "]/firmName", null);
+                    string first = GetString(doc, "/result/firm/businessPartners/businessPartner[" + i + "]/firstName", null);
+                    string second = GetString(doc, "/result/firm/businessPartners/businessPartner[" + i + "]/secondName", null);
+                    string last = GetString(doc, "/result/firm/businessPartners/businessPartner[" + i + "]/lastName", null);
+
+                    BusinessPartner bp = new BusinessPartner();
+
+                    bp.REGON = regon;
+					bp.FirmName = firm;
+					bp.FirstName = first;
+					bp.SecondName = second;
+					bp.LastName = last;
+
+                    ad.BusinessPartner.Add(bp);
+                }
+                
 				for (int i = 1; ; i++)
 				{
 					string pkdcode = GetString(doc, "/result/firm/PKDs/PKD[" + i + "]/code", null);

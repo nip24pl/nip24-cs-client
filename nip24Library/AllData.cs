@@ -1,5 +1,5 @@
 ﻿/**
- * Copyright 2015-2023 NETCAT (www.netcat.pl)
+ * Copyright 2015-2024 NETCAT (www.netcat.pl)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  * @author NETCAT <firma@netcat.pl>
- * @copyright 2015-2023 NETCAT (www.netcat.pl)
+ * @copyright 2015-2024 NETCAT (www.netcat.pl)
  * @license http://www.apache.org/licenses/LICENSE-2.0
  */
 
@@ -307,13 +307,19 @@ namespace NIP24
 		[DispId(80)]
 		string OwnershipFormName { get; set; }
 
+        /// <summary>
+        /// Lista wspólników s.c.
+        /// </summary>
+        [DispId(81)]
+        BusinessPartner[] BusinessPartner { get; set; }
+        
 		/// <summary>
-		/// Lista kodów PKD
-		/// </summary>
-		[DispId(81)]
+        /// Lista kodów PKD
+        /// </summary>
+        [DispId(82)]
 		PKD[] PKD { get; set; }
 
-		[DispId(82)]
+		[DispId(83)]
 		string ToString();
 	}
 
@@ -564,10 +570,25 @@ namespace NIP24
         /// </summary>
         public string OwnershipFormName { get; set; }
 
-		/// <summary>
-		/// Lista kodów PKD
-		/// </summary>
-		[ComVisible(false)]
+        /// <summary>
+        /// Lista wspólników s.c.
+        /// </summary>
+        [ComVisible(false)]
+        public List<BusinessPartner> BusinessPartner { get; set; }
+
+        /// <summary>
+        /// Lista wspólników s.c.
+        /// </summary>
+        BusinessPartner[] IAllData.BusinessPartner
+        {
+            get { return BusinessPartner.ToArray(); }
+            set { BusinessPartner = new List<BusinessPartner>(value); }
+        }
+
+        /// <summary>
+        /// Lista kodów PKD
+        /// </summary>
+        [ComVisible(false)]
 		public List<PKD> PKD { get; set; }
 
 		/// <summary>
@@ -584,6 +605,7 @@ namespace NIP24
 		/// </summary>
 		public AllData()
 		{
+			BusinessPartner = new List<BusinessPartner>();
 			PKD = new List<PKD>();
 		}
 
@@ -644,6 +666,7 @@ namespace NIP24
                 + ", ownershipFormCode = " + OwnershipFormCode
                 + ", ownershipFormName = " + OwnershipFormName
 
+                + ", businessPartner = [" + string.Join(", ", BusinessPartner.ConvertAll(e => Convert.ToString(e)).ToArray()) + "]"
                 + ", pkd = [" + string.Join(", ", PKD.ConvertAll(e => Convert.ToString(e)).ToArray()) + "]"
 				+ "]";
         }
