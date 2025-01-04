@@ -1,5 +1,5 @@
 ﻿/**
- * Copyright 2015-2024 NETCAT (www.netcat.pl)
+ * Copyright 2015-2025 NETCAT (www.netcat.pl)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  * @author NETCAT <firma@netcat.pl>
- * @copyright 2015-2024 NETCAT (www.netcat.pl)
+ * @copyright 2015-2025 NETCAT (www.netcat.pl)
  * @license http://www.apache.org/licenses/LICENSE-2.0
  */
 
@@ -49,7 +49,13 @@ namespace NIP24
 		[DispId(3)]
 		bool Primary { get; set; }
 
-		[DispId(4)]
+        /// <summary>
+        /// Wersja PKD
+        /// </summary>
+        [DispId(4)]
+        string Version { get; set; }
+        
+		[DispId(5)]
 		string ToString();
     }
 
@@ -80,10 +86,15 @@ namespace NIP24
 		/// </summary>
 		public bool Primary { get; set; }
 
+        /// <summary>
+        /// Wersja PKD
+        /// </summary>
+        public string Version { get; set; }
+        
 		/// <summary>
-		/// Tworzy nowy, pusty obiekt
-		/// </summary>
-		public PKD()
+        /// Tworzy nowy, pusty obiekt
+        /// </summary>
+        public PKD()
 		{
 		}
 
@@ -92,6 +103,7 @@ namespace NIP24
 			return "PKD: [primary = " + Primary
 				+ ", code = " + Code
 				+ ", description = " + Description
+				+ ", version = " + Version
 				+ "]";
 		}
 	}

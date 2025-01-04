@@ -33,6 +33,12 @@ namespace NIP24.Model {
     [JsonProperty(PropertyName = "primary")]
     public bool? Primary { get; set; }
 
+    /// <summary>
+    /// Gets or Sets Version
+    /// </summary>
+    [DataMember(Name = "version", EmitDefaultValue = false)]
+    [JsonProperty(PropertyName = "version")]
+    public string Version { get; set; }
 
     /// <summary>
     /// Get the string presentation of the object
@@ -44,6 +50,7 @@ namespace NIP24.Model {
       sb.Append("  Code: ").Append(Code).Append("\n");
       sb.Append("  Description: ").Append(Description).Append("\n");
       sb.Append("  Primary: ").Append(Primary).Append("\n");
+      sb.Append("  Version: ").Append(Version).Append("\n");
       sb.Append("}\n");
       return sb.ToString();
     }

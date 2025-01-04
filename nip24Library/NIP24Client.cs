@@ -1,5 +1,5 @@
 ﻿/**
- * Copyright 2015-2024 NETCAT (www.netcat.pl)
+ * Copyright 2015-2025 NETCAT (www.netcat.pl)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  * @author NETCAT <firma@netcat.pl>
- * @copyright 2015-2024 NETCAT (www.netcat.pl)
+ * @copyright 2015-2025 NETCAT (www.netcat.pl)
  * @license http://www.apache.org/licenses/LICENSE-2.0
  */
 
@@ -355,7 +355,7 @@ namespace NIP24
 	[ComVisible(true)]
 	public class NIP24Client : INIP24Client
 	{
-		public const string VERSION = "1.4.9";
+		public const string VERSION = "1.5.0";
 
 		public const string PRODUCTION_URL = "https://www.nip24.pl/api";
 		public const string TEST_URL = "https://www.nip24.pl/api-test";
@@ -808,12 +808,14 @@ namespace NIP24
 
 					string descr = GetString(doc, "/result/firm/PKDs/PKD[" + i + "]/description", null);
 					string pri = GetString(doc, "/result/firm/PKDs/PKD[" + i + "]/primary", "false");
+                    string ver = GetString(doc, "/result/firm/PKDs/PKD[" + i + "]/version", null);
 
-					PKD pkd = new PKD();
+                    PKD pkd = new PKD();
 
 					pkd.Code = pkdcode;
 					pkd.Description = descr;
 					pkd.Primary = pri.Equals("true");
+					pkd.Version = ver;
 
 					ad.PKD.Add(pkd);
 				}
