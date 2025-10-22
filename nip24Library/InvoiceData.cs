@@ -28,7 +28,8 @@ namespace NIP24
 	/// Interfejs danych firmy wymaganych do wystawienia faktury
 	/// </summary>
 	[Guid("03DF6A61-201B-47D7-A8D3-F4A192C1E557")]
-	[ComVisible(true)]
+    [InterfaceType(ComInterfaceType.InterfaceIsDual)]
+    [ComVisible(true)]
 	public interface IInvoiceData
 	{
 		/// <summary>

@@ -30,7 +30,8 @@ namespace NIP24
 	/// Interfejs weryfikatora numeru REGON
 	/// </summary>
 	[Guid("EBA2D0C5-D7C9-4E18-AF01-C3F6DB64DA71")]
-	[ComVisible(true)]
+    [InterfaceType(ComInterfaceType.InterfaceIsDual)]
+    [ComVisible(true)]
 	public interface IREGON
     {
 		/// <summary>

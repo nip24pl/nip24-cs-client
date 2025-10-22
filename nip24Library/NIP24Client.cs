@@ -41,9 +41,16 @@ namespace NIP24
 	/// Interfejs klienta serwisu NIP24
 	/// </summary>
 	[Guid("80D40219-9D08-45C7-A255-44FC7A701578")]
-	[ComVisible(true)]
+    [InterfaceType(ComInterfaceType.InterfaceIsDual)]
+    [ComVisible(true)]
 	public interface INIP24Client
 	{
+        /// <summary>
+        /// Wersja klienta
+        /// </summary>
+        [DispId(36)]
+        string Version { get; }
+        
 		/// <summary>
 		/// Ostatni kod błędu
 		/// </summary>
@@ -355,7 +362,7 @@ namespace NIP24
 	[ComVisible(true)]
 	public class NIP24Client : INIP24Client
 	{
-		public const string VERSION = "1.5.0";
+		public const string VERSION = "1.5.2";
 
 		public const string PRODUCTION_URL = "https://www.nip24.pl/api";
 		public const string TEST_URL = "https://www.nip24.pl/api-test";
@@ -363,6 +370,14 @@ namespace NIP24
 		public const string TEST_ID = "test_id";
 		public const string TEST_KEY = "test_key";
 
+        /// <summary>
+        /// Wersja klienta
+        /// </summary>
+        public string Version
+		{
+			get { return VERSION; } 
+		}
+        
 		/// <summary>
 		/// Ostatni kod błędu
 		/// </summary>
@@ -752,7 +767,9 @@ namespace NIP24
 				ad.HoldDate = GetDateTime(doc, "/result/firm/holdDate");
 				ad.RenevalDate = GetDateTime(doc, "/result/firm/renevalDate");
 				ad.LastUpdateDate = GetDateTime(doc, "/result/firm/lastUpdateDate");
-				ad.EndDate = GetDateTime(doc, "/result/firm/endDate");
+                ad.BankruptcyDate = GetDateTime(doc, "/result/firm/bankruptcyDate");
+                ad.EndOfBankruptcyProceedingsDate = GetDateTime(doc, "/result/firm/endOfBankruptcyProceedingsDate");
+                ad.EndDate = GetDateTime(doc, "/result/firm/endDate");
 
 				ad.RegistryEntityCode = GetString(doc, "/result/firm/registryEntity/code", null);
 				ad.RegistryEntityName = GetString(doc, "/result/firm/registryEntity/name", null);

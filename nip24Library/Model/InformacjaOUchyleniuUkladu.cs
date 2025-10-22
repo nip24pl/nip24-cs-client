@@ -10,34 +10,40 @@ namespace NIP24.Model {
 
     #region interface
 
-    [Guid("41640E79-B761-4025-9653-C4A6E87D33D3")]
+    [Guid("B7E0D91C-A800-495F-B216-F5D234B5CFE4")]
     [InterfaceType(ComInterfaceType.InterfaceIsDual)]
     [ComVisible(true)]
-    public interface IIdentyfikatoryPodmiotu
+    public interface IInformacjaOUchyleniuUkladu
     {
         /// <summary>
-        /// Gets or Sets Nip
+        /// Gets or Sets Pole1
         /// </summary>
         [DispId(1)]
-        string Nip { get; set; }
+        string Pole1 { get; set; }
 
         /// <summary>
-        /// Gets or Sets Regon
+        /// Gets or Sets Pole2
         /// </summary>
         [DispId(2)]
-        string Regon { get; set; }
+        string Pole2 { get; set; }
 
         /// <summary>
-        /// Gets or Sets Krs
+        /// Gets or Sets Pole3
         /// </summary>
         [DispId(3)]
-        string Krs { get; set; }
+        string Pole3 { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Pole4
+        /// </summary>
+        [DispId(4)]
+        string Pole4 { get; set; }
 
         /// <summary>
         /// Get the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
-        [DispId(4)]
+        [DispId(5)]
         string ToString();
     }
 
@@ -48,32 +54,39 @@ namespace NIP24.Model {
     /// <summary>
     /// 
     /// </summary>
-    [Guid("B1BA5A3A-11D3-484E-AA1D-85B3E13F0069")]
+    [Guid("1A767D59-D170-402B-8CC6-2D09A166DFCF")]
     [ClassInterface(ClassInterfaceType.None)]
     [ComVisible(true)]
     [DataContract]
-    public class IdentyfikatoryPodmiotu : IIdentyfikatoryPodmiotu
+    public class InformacjaOUchyleniuUkladu : IInformacjaOUchyleniuUkladu
     {
         /// <summary>
-        /// Gets or Sets Nip
+        /// Gets or Sets Pole1
         /// </summary>
-        [DataMember(Name = "nip", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "nip")]
-        public string Nip { get; set; }
+        [DataMember(Name = "pole1", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "pole1")]
+        public string Pole1 { get; set; }
 
         /// <summary>
-        /// Gets or Sets Regon
+        /// Gets or Sets Pole2
         /// </summary>
-        [DataMember(Name = "regon", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "regon")]
-        public string Regon { get; set; }
+        [DataMember(Name = "pole2", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "pole2")]
+        public string Pole2 { get; set; }
 
         /// <summary>
-        /// Gets or Sets Krs
+        /// Gets or Sets Pole3
         /// </summary>
-        [DataMember(Name = "krs", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "krs")]
-        public string Krs { get; set; }
+        [DataMember(Name = "pole3", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "pole3")]
+        public string Pole3 { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Pole4
+        /// </summary>
+        [DataMember(Name = "pole4", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "pole4")]
+        public string Pole4 { get; set; }
 
         /// <summary>
         /// Get the string presentation of the object
@@ -82,10 +95,11 @@ namespace NIP24.Model {
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class IdentyfikatoryPodmiotu {\n");
-            sb.Append("  Nip: ").Append(Nip).Append("\n");
-            sb.Append("  Regon: ").Append(Regon).Append("\n");
-            sb.Append("  Krs: ").Append(Krs).Append("\n");
+            sb.Append("class InformacjaOUchyleniuUkladu {\n");
+            sb.Append("  pole1: ").Append(Pole1).Append("\n");
+            sb.Append("  pole2: ").Append(Pole2).Append("\n");
+            sb.Append("  pole3: ").Append(Pole3).Append("\n");
+            sb.Append("  pole4: ").Append(Pole4).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -98,6 +112,7 @@ namespace NIP24.Model {
         {
             return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
+
     }
 
     #endregion

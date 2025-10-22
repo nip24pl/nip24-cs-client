@@ -30,7 +30,8 @@ namespace NIP24
 	/// Interfejs weryfikatora numeru EU VAT ID
 	/// </summary>
 	[Guid("155D7B28-4BA8-4F37-93D7-7AF0DAD2280A")]
-	[ComVisible(true)]
+    [InterfaceType(ComInterfaceType.InterfaceIsDual)]
+    [ComVisible(true)]
 	public interface IEUVAT
 	{
 		/// <summary>

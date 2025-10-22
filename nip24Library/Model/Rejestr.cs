@@ -5,14 +5,17 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System.Runtime.InteropServices;
 
 namespace NIP24.Model
 {
     /// <summary>
     /// Defines Rejestr
     /// </summary>
+	[Guid("8CD92286-51D6-4C14-BBA4-7C3228FB9E0E")]
+    [ComVisible(true)]
     [JsonConverter(typeof(StringEnumConverter))]
-        public enum Rejestr
+    public enum Rejestr
     {
         /// <summary>
         /// Enum RejP for value: RejP
@@ -23,5 +26,6 @@ namespace NIP24.Model
         /// Enum RejS for value: RejS
         /// </summary>
         [EnumMember(Value = "RejS")]
-        RejS = 2    }
+        RejS = 2
+    }
 }

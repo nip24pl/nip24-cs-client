@@ -30,7 +30,8 @@ namespace NIP24
 	/// Weryfikator numeru NIP
 	/// </summary>
 	[Guid("8CD86293-4132-4FF4-B290-BCBCB6260A7B")]
-	[ComVisible(true)]
+    [InterfaceType(ComInterfaceType.InterfaceIsDual)]
+    [ComVisible(true)]
 	public interface INIP
     {
 		/// <summary>

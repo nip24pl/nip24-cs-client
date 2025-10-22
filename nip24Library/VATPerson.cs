@@ -28,7 +28,8 @@ namespace NIP24
 	/// Dane osoby z rejestru VAT
 	/// </summary>
 	[Guid("1795E15A-1724-424D-AC89-F65CCF6AF007")]
-	[ComVisible(true)]
+    [InterfaceType(ComInterfaceType.InterfaceIsDual)]
+    [ComVisible(true)]
 	public interface IVATPerson
     {
 		/// <summary>

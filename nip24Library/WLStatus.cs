@@ -29,7 +29,8 @@ namespace NIP24
 	/// Status podmiotu na białej liście
 	/// </summary>
 	[Guid("D1518ADC-DB35-4503-964A-1F3C2F5CA20D")]
-	[ComVisible(true)]
+    [InterfaceType(ComInterfaceType.InterfaceIsDual)]
+    [ComVisible(true)]
 	public interface IWLStatus
     {
 		/// <summary>

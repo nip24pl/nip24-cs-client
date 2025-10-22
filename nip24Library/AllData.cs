@@ -30,7 +30,8 @@ namespace NIP24
 	/// Interfejs pełnych danych firmy 
 	/// </summary>
 	[Guid("F2C462BF-6C2C-44E2-95AB-2D52B50450C8")]
-	[ComVisible(true)]
+    [InterfaceType(ComInterfaceType.InterfaceIsDual)]
+    [ComVisible(true)]
 	public interface IAllData
 	{
 		#region members of IInvoiceData
@@ -229,97 +230,109 @@ namespace NIP24
 		[DispId(67)]
 		DateTime LastUpdateDate { get; set; }
 
+        /// <summary>
+        /// Data orzeczenia o upadłości
+        /// </summary>
+        [DispId(68)]
+        DateTime BankruptcyDate { get; set; }
+
+        /// <summary>
+        /// Data zakończenia postępowania upadłościowego
+        /// </summary>
+        [DispId(69)]
+        DateTime EndOfBankruptcyProceedingsDate { get; set; }
+        
 		/// <summary>
-		/// Data zakończenia działalności
-		/// </summary>
-		[DispId(68)]
+        /// Data zakończenia działalności
+        /// </summary>
+        [DispId(70)]
 		DateTime EndDate { get; set; }
 
 		/// <summary>
 		/// Kod organu rejestrowego
 		/// </summary>
-		[DispId(69)]
+		[DispId(71)]
 		string RegistryEntityCode { get; set; }
 
 		/// <summary>
 		/// Nazwa organu rejestrowego
 		/// </summary>
-		[DispId(70)]
+		[DispId(72)]
 		string RegistryEntityName { get; set; }
 
 		/// <summary>
 		/// Kod rodzaju rejestru ewidencji
 		/// </summary>
-		[DispId(71)]
+		[DispId(73)]
 		string RegistryCode { get; set; }
 
 		/// <summary>
 		/// Nazwa rodzaju rejestru ewidencji
 		/// </summary>
-		[DispId(72)]
+		[DispId(74)]
 		string RegistryName { get; set; }
 
 		/// <summary>
 		/// Data wpisu do rejestru ewidencji
 		/// </summary>
-		[DispId(73)]
+		[DispId(75)]
 		DateTime RecordCreationDate { get; set; }
 
 		/// <summary>
 		/// Numer w rejestrze ewidencji
 		/// </summary>
-		[DispId(74)]
+		[DispId(76)]
 		string RecordNumber { get; set; }
 
 		/// <summary>
 		/// Kod podstawowej formy prawnej
 		/// </summary>
-		[DispId(75)]
+		[DispId(77)]
 		string BasicLegalFormCode { get; set; }
 
 		/// <summary>
 		/// Nazwa podstawowej formy prawnej
 		/// </summary>
-		[DispId(76)]
+		[DispId(78)]
 		string BasicLegalFormName { get; set; }
 
 		/// <summary>
 		/// Kod szczególnej formy prawnej
 		/// </summary>
-		[DispId(77)]
+		[DispId(79)]
 		string SpecificLegalFormCode { get; set; }
 
 		/// <summary>
 		/// Nazwa szczególnej formy prawnej
 		/// </summary>
-		[DispId(78)]
+		[DispId(80)]
 		string SpecificLegalFormName { get; set; }
 
 		/// <summary>
 		/// Kod formy własności
 		/// </summary>
-		[DispId(79)]
+		[DispId(81)]
 		string OwnershipFormCode { get; set; }
 
 		/// <summary>
 		/// Nazwa formy własności
 		/// </summary>
-		[DispId(80)]
+		[DispId(82)]
 		string OwnershipFormName { get; set; }
 
         /// <summary>
         /// Lista wspólników s.c.
         /// </summary>
-        [DispId(81)]
+        [DispId(83)]
         BusinessPartner[] BusinessPartner { get; set; }
         
 		/// <summary>
         /// Lista kodów PKD
         /// </summary>
-        [DispId(82)]
+        [DispId(84)]
 		PKD[] PKD { get; set; }
 
-		[DispId(83)]
+		[DispId(85)]
 		string ToString();
 	}
 
@@ -485,10 +498,40 @@ namespace NIP24
 			set { LastUpdateDate = value; }
 		}
 
-		/// <summary>
-		/// Data zakończenia działalności
-		/// </summary>
-		[ComVisible(false)]
+        /// <summary>
+        /// Data orzeczenia o upadłości
+        /// </summary>
+        [ComVisible(false)]
+        public DateTime? BankruptcyDate { get; set; }
+
+        /// <summary>
+        /// Data orzeczenia o upadłości
+        /// </summary>
+        DateTime IAllData.BankruptcyDate
+        {
+            get { return BankruptcyDate ?? DateTime.MinValue; }
+            set { BankruptcyDate = value; }
+        }
+
+        /// <summary>
+        /// Data zakończenia postępowania upadłościowego
+        /// </summary>
+        [ComVisible(false)]
+        public DateTime? EndOfBankruptcyProceedingsDate { get; set; }
+
+        /// <summary>
+        /// Data zakończenia postępowania upadłościowego
+        /// </summary>
+        DateTime IAllData.EndOfBankruptcyProceedingsDate
+        {
+            get { return EndOfBankruptcyProceedingsDate ?? DateTime.MinValue; }
+            set { EndOfBankruptcyProceedingsDate = value; }
+        }
+
+        /// <summary>
+        /// Data zakończenia działalności
+        /// </summary>
+        [ComVisible(false)]
 		public DateTime? EndDate { get; set; }
 
 		/// <summary>
@@ -646,6 +689,8 @@ namespace NIP24
                 + ", holdDate = " + HoldDate
                 + ", renevalDate = " + RenevalDate
                 + ", lastUpdateDate = " + LastUpdateDate
+                + ", bankruptcyDate = " + BankruptcyDate
+                + ", endOfBankruptcyProceedingsDate = " + EndOfBankruptcyProceedingsDate
                 + ", endDate = " + EndDate
 
                 + ", registryEntityCode = " + RegistryEntityCode

@@ -30,7 +30,8 @@ namespace NIP24
 	/// Dane podmiotu z rejestru VAT
 	/// </summary>
 	[Guid("14A54D2F-64BA-4682-92D9-2432639971F4")]
-	[ComVisible(true)]
+    [InterfaceType(ComInterfaceType.InterfaceIsDual)]
+    [ComVisible(true)]
 	public interface IVATEntity
     {
 		/// <summary>

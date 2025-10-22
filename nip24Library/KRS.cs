@@ -29,7 +29,8 @@ namespace NIP24
 	/// Interfejs weryfikatora numeru KRS
 	/// </summary>
 	[Guid("F0B4C852-942A-4973-993F-A36C54382035")]
-	[ComVisible(true)]
+    [InterfaceType(ComInterfaceType.InterfaceIsDual)]
+    [ComVisible(true)]
 	public interface IKRS
     {
 		/// <summary>

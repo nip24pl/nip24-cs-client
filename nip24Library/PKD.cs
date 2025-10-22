@@ -18,6 +18,7 @@
  * @license http://www.apache.org/licenses/LICENSE-2.0
  */
 
+using System.Collections;
 using System.Runtime.InteropServices;
 
 namespace NIP24
@@ -28,13 +29,14 @@ namespace NIP24
 	/// Interfejs elementu słownika z rejestru PKD (Polska Klasyfikacja Działalności)
 	/// </summary>
 	[Guid("679DCF2A-222A-4F34-B929-20F3753B60B4")]
-	[ComVisible(true)]
+    [InterfaceType(ComInterfaceType.InterfaceIsDual)]
+    [ComVisible(true)]
 	public interface IPKD
     {
-		/// <summary>
-		/// Kod PKD
-		/// </summary>
-		[DispId(1)]
+        /// <summary>
+        /// Kod PKD
+        /// </summary>
+        [DispId(1)]
 		string Code { get; set; }
 
 		/// <summary>
@@ -70,7 +72,7 @@ namespace NIP24
 	[ClassInterface(ClassInterfaceType.None)]
 	[ComVisible(true)]
 	public class PKD : IPKD
-	{
+    {
 		/// <summary>
 		/// Kod PKD
 		/// </summary>

@@ -28,6 +28,7 @@ namespace NIP24
     /// Interfejs elementu listy wspólników s.c.
     /// </summary>
     [Guid("4C20999B-27DF-44BF-9535-25B11EB9F570")]
+    [InterfaceType(ComInterfaceType.InterfaceIsDual)]
     [ComVisible(true)]
     public interface IBusinessPartner
     {

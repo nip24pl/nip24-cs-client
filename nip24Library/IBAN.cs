@@ -32,7 +32,8 @@ namespace NIP24
 	/// Weryfikator numeru rachunku bankowego IBAN
 	/// </summary>
 	[Guid("C76ABFD5-38EC-457D-9723-97F63A76AF4C")]
-	[ComVisible(true)]
+    [InterfaceType(ComInterfaceType.InterfaceIsDual)]
+    [ComVisible(true)]
 	public interface IIBAN
     {
 		/// <summary>

@@ -29,7 +29,8 @@ namespace NIP24
 	/// Status rachunku bankowego IBAN
 	/// </summary>
 	[Guid("BEFDF1CE-BE0C-48DA-8A96-150DCA015E1E")]
-	[ComVisible(true)]
+    [InterfaceType(ComInterfaceType.InterfaceIsDual)]
+    [ComVisible(true)]
 	public interface IIBANStatus
     {
 		/// <summary>

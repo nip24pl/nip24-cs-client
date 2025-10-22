@@ -29,7 +29,8 @@ namespace NIP24
 	/// Interfejs danych o koncie użytkownika
 	/// </summary>
 	[Guid("E239CE38-AD8D-445E-A770-1E8011FC474A")]
-	[ComVisible(true)]
+    [InterfaceType(ComInterfaceType.InterfaceIsDual)]
+    [ComVisible(true)]
 	public interface IAccountStatus
 	{
 		/// <summary>

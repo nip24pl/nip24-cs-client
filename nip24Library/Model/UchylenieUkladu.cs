@@ -10,28 +10,28 @@ namespace NIP24.Model {
 
     #region interface
 
-    [Guid("41640E79-B761-4025-9653-C4A6E87D33D3")]
+    [Guid("67E213C7-68EF-47F4-B8C8-51C084DAFC3A")]
     [InterfaceType(ComInterfaceType.InterfaceIsDual)]
     [ComVisible(true)]
-    public interface IIdentyfikatoryPodmiotu
+    public interface IUchylenieUkladu
     {
         /// <summary>
-        /// Gets or Sets Nip
+        /// Gets or Sets OrganUchylajacy
         /// </summary>
         [DispId(1)]
-        string Nip { get; set; }
+        string OrganUchylajacy { get; set; }
 
         /// <summary>
-        /// Gets or Sets Regon
+        /// Gets or Sets DataUchylenia
         /// </summary>
         [DispId(2)]
-        string Regon { get; set; }
+        string DataUchylenia { get; set; }
 
         /// <summary>
-        /// Gets or Sets Krs
+        /// Gets or Sets Sygnatura
         /// </summary>
         [DispId(3)]
-        string Krs { get; set; }
+        string Sygnatura { get; set; }
 
         /// <summary>
         /// Get the string presentation of the object
@@ -48,32 +48,32 @@ namespace NIP24.Model {
     /// <summary>
     /// 
     /// </summary>
-    [Guid("B1BA5A3A-11D3-484E-AA1D-85B3E13F0069")]
+    [Guid("806A5B01-9D4D-4284-BD38-AE5E596A38DF")]
     [ClassInterface(ClassInterfaceType.None)]
     [ComVisible(true)]
     [DataContract]
-    public class IdentyfikatoryPodmiotu : IIdentyfikatoryPodmiotu
+    public class UchylenieUkladu : IUchylenieUkladu
     {
         /// <summary>
-        /// Gets or Sets Nip
+        /// Gets or Sets OrganUchylajacy
         /// </summary>
-        [DataMember(Name = "nip", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "nip")]
-        public string Nip { get; set; }
+        [DataMember(Name = "organUchylajacy", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "organUchylajacy")]
+        public string OrganUchylajacy { get; set; }
 
         /// <summary>
-        /// Gets or Sets Regon
+        /// Gets or Sets DataUchylenia
         /// </summary>
-        [DataMember(Name = "regon", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "regon")]
-        public string Regon { get; set; }
+        [DataMember(Name = "dataUchylenia", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "dataUchylenia")]
+        public string DataUchylenia { get; set; }
 
         /// <summary>
-        /// Gets or Sets Krs
+        /// Gets or Sets Sygnatura
         /// </summary>
-        [DataMember(Name = "krs", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "krs")]
-        public string Krs { get; set; }
+        [DataMember(Name = "sygnatura", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "sygnatura")]
+        public string Sygnatura { get; set; }
 
         /// <summary>
         /// Get the string presentation of the object
@@ -82,10 +82,10 @@ namespace NIP24.Model {
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class IdentyfikatoryPodmiotu {\n");
-            sb.Append("  Nip: ").Append(Nip).Append("\n");
-            sb.Append("  Regon: ").Append(Regon).Append("\n");
-            sb.Append("  Krs: ").Append(Krs).Append("\n");
+            sb.Append("class UchylenieUkladu {\n");
+            sb.Append("  OrganUchylajacy: ").Append(OrganUchylajacy).Append("\n");
+            sb.Append("  DataUchylenia: ").Append(DataUchylenia).Append("\n");
+            sb.Append("  Sygnatura: ").Append(Sygnatura).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

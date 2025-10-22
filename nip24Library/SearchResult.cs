@@ -30,7 +30,8 @@ namespace NIP24
 	/// Wynik wyszukiwania danych
 	/// </summary>
 	[Guid("2CF3B248-A621-4689-BA5F-E2426393D182")]
-	[ComVisible(true)]
+    [InterfaceType(ComInterfaceType.InterfaceIsDual)]
+    [ComVisible(true)]
 	public interface ISearchResult
     {
 		/// <summary>

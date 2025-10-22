@@ -29,7 +29,8 @@ namespace NIP24
 	/// Interfejs statusu firmy w rejestrze VAT
 	/// </summary>
 	[Guid("67A29CBA-B095-480E-9F5F-0A4BEAB83810")]
-	[ComVisible(true)]
+    [InterfaceType(ComInterfaceType.InterfaceIsDual)]
+    [ComVisible(true)]
 	public interface IVATStatus
     {
 		/// <summary>

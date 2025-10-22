@@ -11,6 +11,7 @@ namespace NIP24.Model
     /// Dane firmy pobrane z rejestru KRS
     /// </summary>
     [Guid("8F90CA00-7EB3-40DF-BB1D-B2BAC0FAB657")]
+    [InterfaceType(ComInterfaceType.InterfaceIsDual)]
     [ComVisible(true)]
     public interface IKRSData
     {

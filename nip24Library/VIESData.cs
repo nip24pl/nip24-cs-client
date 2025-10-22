@@ -29,7 +29,8 @@ namespace NIP24
 	/// Interfejs danych firmy z systemu VIES
 	/// </summary>
 	[Guid("4CAB1F48-52C8-4F9A-B447-FAC754743597")]
-	[ComVisible(true)]
+    [InterfaceType(ComInterfaceType.InterfaceIsDual)]
+    [ComVisible(true)]
 	public interface IVIESData
     {
 		/// <summary>
